@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { serviceDetails } from '../../data/site.js';
+
+export function getStaticPaths() {
+  return Object.keys(serviceDetails).map((slug) => ({ params: { slug } }));
+}
+
+const service = serviceDetails[Astro.params.slug];
+---
+<BaseLayout title={`${service.title} | DreamWeb Studio`} description={service.description}>
+  <PageHero badge={service.badge} title={service.title} text={service.description} primary="Wyceń mój projekt" primaryHref="/konfigurator" secondary="Kontakt" secondaryHref="/kontakt" />
+  <section class="section section-night">
+    <div class="container">
+      <div class="grid-3">
+        {service.sections.map(([title, items]) => (
+          <article class="card">
+            <h2>{title}</h2>
+            <ul class="check-list">
+              {items.map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="section"><div class="container"><div class="card"><h2>Gotowy na kolejny krok?</h2><p>Pierwsza rozmowa i wycena są darmowe. Opowiedz krótko, czego potrzebujesz, a wrócę z konkretną propozycją.</p><a class="button button-primary" href="/konfigurator">Skonfiguruj projekt</a></div></div></section>
+</BaseLayout>

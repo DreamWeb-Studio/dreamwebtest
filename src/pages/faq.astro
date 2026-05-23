@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FAQList from '../components/FAQList.astro';
+---
+<BaseLayout title="FAQ — najczęstsze pytania | DreamWeb Studio" description="Odpowiedzi na najczęstsze pytania o strony internetowe, oferty PDF, cennik, terminy, SEO, wdrożenie i współpracę.">
+  <PageHero badge="FAQ" title="Wszystko, co warto wiedzieć" text="Wyceny, terminy, technologia, SEO i wsparcie po wdrożeniu. Jeśli czegoś tu nie znajdziesz — po prostu napisz." primary="Zadaj pytanie" primaryHref="/kontakt" secondary="Wróć na stronę główną" secondaryHref="/" />
+  <section class="section section-night"><div class="container"><FAQList full={true} /></div></section>
+</BaseLayout>

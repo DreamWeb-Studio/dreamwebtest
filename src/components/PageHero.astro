@@ -1,0 +1,16 @@
+---
+const { badge, title, text, primary = 'Skonfiguruj projekt', primaryHref = '/konfigurator', secondary = 'Kontakt', secondaryHref = '/kontakt' } = Astro.props;
+---
+<section class="page-hero" data-hero-mouse>
+  <span class="hero-mouse-glow" aria-hidden="true"></span>
+  <div class="container">
+    <a class="back-link" href="/">← Wróć na stronę główną</a>
+    {badge && <span class="badge">{badge}</span>}
+    <h1 style="margin-top: 22px; max-width: 900px;">{title}</h1>
+    {text && <p style="max-width: 760px; font-size: 1.15rem;">{text}</p>}
+    <div class="button-row" style="margin-top: 30px;">
+      <a class="button button-primary" href={primaryHref}>{primary}</a>
+      {secondary && <a class="button button-secondary" href={secondaryHref}>{secondary}</a>}
+    </div>
+  </div>
+</section>

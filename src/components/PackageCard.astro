@@ -1,0 +1,24 @@
+---
+const { plan } = Astro.props;
+---
+<article class:list={['pricing-card', plan.featured && 'featured']}>
+  {plan.badge && <span class="badge">{plan.badge}</span>}
+  <h3 style="margin-top: 16px;">{plan.title}</h3>
+  <p class="price gradient-text">{plan.price}</p>
+  <p>{plan.forWhom}</p>
+  <h4>Zawiera</h4>
+  <ul class="check-list">
+    {plan.included.map((item) => <li>{item}</li>)}
+  </ul>
+  {plan.missing.length > 0 && (
+    <>
+      <h4>Nie zawiera / wyższy zakres</h4>
+      <ul class="muted-list">
+        {plan.missing.map((item) => <li>{item}</li>)}
+      </ul>
+    </>
+  )}
+  <p style="margin-top: auto; padding-top: 22px;">
+    <a class="button button-ghost" href="/konfigurator">{plan.cta}</a>
+  </p>
+</article>

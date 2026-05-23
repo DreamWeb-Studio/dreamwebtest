@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const steps = [
+  ['Wiadomość / konfigurator', 'Zaczynamy od krótkiej wiadomości albo konfiguratora, który pomaga szybko zebrać podstawowy zakres.'],
+  ['Ustalenie celu strony', 'Określamy, co strona ma robić: prezentować ofertę, zbierać zapytania, pokazywać realizacje albo wspierać sprzedaż.'],
+  ['Zakres i wycena', 'Ustalamy strukturę, materiały, funkcje, termin i orientacyjny koszt przed rozpoczęciem pracy.'],
+  ['Materiały', 'Zbieramy logo, zdjęcia, teksty, dane kontaktowe i informacje, które są potrzebne do projektu.'],
+  ['Projekt pierwszej wersji', 'Przygotowuję kierunek wizualny i układ strony, żeby można było zobaczyć realny kształt projektu.'],
+  ['Poprawki', 'Dopracowujemy treści, sekcje, CTA i detale, które wpływają na pierwsze wrażenie oraz czytelność.'],
+  ['Wdrożenie', 'Przenoszę projekt do działającej wersji, sprawdzam mobile, podstawowe SEO, szybkość i formularze.'],
+  ['Testy i publikacja', 'Testuję najważniejsze widoki, linki, obrazy i ścieżkę kontaktu, a potem publikuję stronę.'],
+  ['Wsparcie po starcie', 'Po publikacji możesz wrócić z pytaniami, poprawkami albo planem dalszej rozbudowy.'],
+];
+---
+<BaseLayout title="Jak wygląda współpraca? | DreamWeb Studio" description="Poznaj proces współpracy krok po kroku — od pierwszej wiadomości, przez zakres i projekt, aż po publikację strony i wsparcie po starcie.">
+  <PageHero badge="PROCES" title="Jak wygląda współpraca?" text="Pracujemy krok po kroku: od pierwszej wiadomości, przez zakres i projekt, aż po publikację oraz wsparcie po starcie." />
+
+  <section class="section section-night">
+    <div class="container">
+      <div class="process-timeline stagger-grid">
+        {steps.map(([title, text], index) => (
+          <article class="process-step">
+            <span class="timeline-number">{String(index + 1).padStart(2, '0')}</span>
+            <div>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="approach-panel card">
+        <div>
+          <span class="badge">Po zakończeniu projektu</span>
+          <h2>Co otrzymujesz?</h2>
+          <p>Gotową stronę albo dokument PDF, wdrożenie, podstawowe SEO techniczne, sprawdzenie działania i wsparcie po publikacji.</p>
+        </div>
+        <ul class="check-list">
+          <li>Gotową stronę lub dokument PDF</li>
+          <li>Wdrożenie online i podstawową konfigurację</li>
+          <li>Responsywny widok na telefonie, tablecie i komputerze</li>
+          <li>Wsparcie po publikacji oraz możliwość dalszej rozbudowy</li>
+        </ul>
+      </div>
+      <div class="button-row" style="justify-content:center;margin-top:28px;">
+        <a class="button button-primary" href="/konfigurator">Zacznij od konfiguratora</a>
+        <a class="button button-secondary" href="/kontakt">Napisz do mnie</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

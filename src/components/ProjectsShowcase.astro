@@ -1,0 +1,53 @@
+---
+import { projects } from '../data/site.js';
+const { compact = false } = Astro.props;
+---
+<div style="display: grid; gap: 32px;">
+  {projects.map((project) => (
+    <article class="card project-card">
+      <div>
+        <span class="badge">{project.category}</span>
+        <h3 style="margin-top: 18px; font-size: 2rem;">{project.title}</h3>
+        <p>{project.description}</p>
+        {project.benefits && (
+          <ul class="check-list project-benefits">
+            {project.benefits.map((item) => <li>{item}</li>)}
+          </ul>
+        )}
+        {!compact && (
+          <>
+            <h4>Cel projektu</h4>
+            <p>{project.goal}</p>
+            <h4>Zakres</h4>
+            <ul class="check-list">
+              {project.scope.map((item) => <li>{item}</li>)}
+            </ul>
+            <h4>Co zyskał projekt</h4>
+            <p>{project.result}</p>
+          </>
+        )}
+        <p style="margin-top: 24px;">
+          <a class="button button-primary" href={project.externalUrl || project.pdfUrl} target="_blank" rel="noreferrer">{project.ctaLabel}</a>
+        </p>
+      </div>
+      <div class="project-media" aria-label={project.alt}>
+        {project.type === 'website' ? (
+          <>
+            <div class="desktop-mockup">
+              <img src={project.desktop} alt={project.alt} width="1280" height="582" loading={compact ? 'lazy' : 'eager'} />
+            </div>
+            <div class="mobile-mockup">
+              <img src={project.mobile} alt="Mobilny widok strony Aluraf-Tarasy" width="720" height="1287" loading="lazy" />
+            </div>
+          </>
+        ) : (
+          <div class="pdf-stack">
+            {project.pages.map((page, index) => (
+              <img src={page} alt={`Mockup dokumentu PDF Strefa Komfortu - strona ${index + 1}`} width="521" height="751" loading="lazy" />
+            ))}
+          </div>
+        )}
+      </div>
+    </article>
+  ))}
+</div>

@@ -1,0 +1,25 @@
+---
+import { services } from '../data/site.js';
+const { compact = false } = Astro.props;
+
+const iconClasses = ['icon-browser', 'icon-layout', 'icon-document', 'icon-globe'];
+---
+<div class:list={[compact ? 'grid-4 service-grid-compact' : 'grid-4', 'stagger-grid']}>
+  {services.map((service, index) => (
+    <article class="card service-card">
+      <span class:list={['icon-bubble', iconClasses[index] || 'icon-layout']} aria-hidden="true">
+        <span></span>
+      </span>
+      <h3 style="margin-top: 22px;">{service.title}</h3>
+      <p>{service.description}</p>
+      {!compact && (
+        <ul class="check-list">
+          {service.points.map((point) => <li>{point}</li>)}
+        </ul>
+      )}
+      <p style="margin-top: auto; padding-top: 22px;">
+        <a class="button button-ghost" href={service.href}>Zobacz szczegóły</a>
+      </p>
+    </article>
+  ))}
+</div>

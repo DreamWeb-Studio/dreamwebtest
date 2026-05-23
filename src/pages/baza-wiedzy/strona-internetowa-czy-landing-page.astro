@@ -1,0 +1,8 @@
+---
+import ArticleLayout from '../../components/ArticleLayout.astro';
+import { knowledgeArticles } from '../../data/knowledge.js';
+
+const article = knowledgeArticles.find((item) => item.slug === 'strona-internetowa-czy-landing-page');
+---
+
+<ArticleLayout article={article} />

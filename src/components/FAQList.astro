@@ -1,0 +1,88 @@
+---
+import { faqCategories } from '../data/site.js';
+const { full = false } = Astro.props;
+
+const findAnswer = (categoryId, questionStart) => {
+  const category = faqCategories.find((item) => item.id === categoryId);
+  return category?.items.find(([question]) => question.startsWith(questionStart));
+};
+
+const homeItems = [
+  findAnswer('pricing', 'Ile kosztuje'),
+  findAnswer('process', 'Ile trwa'),
+  findAnswer('tech', 'Czy strona będzie działać'),
+  findAnswer('tech', 'Czy strona będzie przygotowana'),
+].filter(Boolean);
+---
+{full ? (
+  <>
+    <div class="faq-search">
+      <input class="input" type="search" placeholder="Szukaj odpowiedzi… (np. wycena, SEO, terminy)" data-faq-search />
+    </div>
+    <div class="tabs" aria-label="Kategorie FAQ">
+      <button class="tab-button is-active" type="button" data-faq-filter="all">Wszystkie</button>
+      {faqCategories.map((category) => (
+        <button class="tab-button" type="button" data-faq-filter={category.id}>{category.label}</button>
+      ))}
+    </div>
+  </>
+) : null}
+
+<div data-faq-list class:list={[!full && 'faq-home-list']}>
+  {full ? (
+    faqCategories.map((category) => (
+      <section class="faq-group" data-faq-category={category.id}>
+        <h2 class="gradient-text">{category.label}</h2>
+        {category.items.map(([question, answer]) => (
+          <details class="faq-item" data-faq-item data-question={question.toLowerCase()} data-answer={answer.toLowerCase()}>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </section>
+    ))
+  ) : (
+    homeItems.map(([question, answer], index) => (
+      <details class="faq-item" open={index === 0}>
+        <summary>{question}</summary>
+        <p>{answer}</p>
+      </details>
+    ))
+  )}
+  {full && <p class="card" hidden data-faq-empty>Nie znaleziono pasujących pytań. Napisz do mnie, a odpowiem bezpośrednio.</p>}
+</div>
+
+{full && (
+  <script>
+    const search = document.querySelector('[data-faq-search]');
+    const buttons = document.querySelectorAll('[data-faq-filter]');
+    const groups = document.querySelectorAll('[data-faq-category]');
+    const empty = document.querySelector('[data-faq-empty]');
+    let active = 'all';
+    const filter = () => {
+      const query = (search?.value || '').trim().toLowerCase();
+      let visibleCount = 0;
+      groups.forEach((group) => {
+        const categoryOk = active === 'all' || group.dataset.faqCategory === active;
+        let groupVisible = false;
+        group.querySelectorAll('[data-faq-item]').forEach((item) => {
+          const textOk = !query || item.dataset.question.includes(query) || item.dataset.answer.includes(query);
+          const visible = categoryOk && textOk;
+          item.hidden = !visible;
+          if (visible) {
+            groupVisible = true;
+            visibleCount += 1;
+          }
+        });
+        group.hidden = !groupVisible;
+      });
+      if (empty) empty.hidden = visibleCount > 0;
+    };
+    buttons.forEach((button) => button.addEventListener('click', () => {
+      active = button.dataset.faqFilter;
+      buttons.forEach((item) => item.classList.toggle('is-active', item === button));
+      filter();
+    }));
+    search?.addEventListener('input', filter);
+  </script>
+)}

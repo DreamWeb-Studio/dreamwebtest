@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const sections = [
+  {
+    title: 'Administrator danych',
+    text: [
+      'Administratorem danych jest DreamWeb Studio.',
+      'Kontakt w sprawach prywatności odbywa się przez formularz kontaktowy na stronie lub dane kontaktowe podane na stronie.',
+    ],
+  },
+  {
+    title: 'Formularz kontaktowy',
+    text: [
+      'W formularzu kontaktowym możesz podać imię, adres e-mail, numer telefonu, typ sprawy oraz treść wiadomości.',
+      'Dane są wykorzystywane po to, aby odpowiedzieć na wiadomość, przygotować wstępną informację i skontaktować się w sprawie zapytania.',
+      'Podanie danych jest dobrowolne, ale potrzebne do obsługi wiadomości. Wysłanie formularza wymaga akceptacji polityki prywatności.',
+    ],
+  },
+  {
+    title: 'Konfigurator projektu',
+    text: [
+      'Konfigurator służy do zebrania informacji o planowanym projekcie.',
+      'Może obejmować typ projektu, zakres, etap, materiały, budżet, model współpracy, termin, dane kontaktowe oraz dodatkową wiadomość.',
+      'Dane są wykorzystywane do przygotowania odpowiedzi lub propozycji współpracy. Wysłanie konfiguracji wymaga akceptacji polityki prywatności.',
+    ],
+  },
+  {
+    title: 'Obsługa wiadomości przez Resend',
+    text: [
+      'Wiadomości z formularza i konfiguratora mogą być obsługiwane technicznie przez usługę Resend.',
+      'Resend służy do przesłania wiadomości z formularza na adres właściciela strony.',
+      'DreamWeb Studio nie wykorzystuje tych danych do automatycznej sprzedaży ani wysyłki newslettera, jeśli użytkownik nie wyrazi osobnej zgody.',
+    ],
+  },
+  {
+    title: 'Narzędzia analityczne i wydajnościowe',
+    text: [
+      'Strona może korzystać z narzędzi analitycznych lub wydajnościowych, takich jak narzędzia dostępne w ramach hostingu i infrastruktury technicznej.',
+      'Dane mogą obejmować informacje techniczne o wizycie, urządzeniu, przeglądarce i wydajności strony.',
+      'Takie informacje służą do poprawy działania, jakości i bezpieczeństwa strony. Jeśli dodatkowe narzędzia analityczne będą aktywne, powinny być opisane w aktualnej wersji tej polityki.',
+    ],
+  },
+  {
+    title: 'Pliki cookies',
+    text: [
+      'Strona może używać plików cookies lub podobnych technologii.',
+      'Cookies mogą być techniczne i niezbędne do prawidłowego działania strony. Jeśli używane są narzędzia analityczne, cookies mogą pomagać w pomiarze odwiedzin i jakości działania strony.',
+      'Użytkownik może zarządzać cookies w ustawieniach swojej przeglądarki.',
+    ],
+  },
+  {
+    title: 'Prawa użytkownika',
+    list: [
+      'prawo dostępu do danych',
+      'prawo sprostowania danych',
+      'prawo usunięcia danych',
+      'prawo ograniczenia przetwarzania',
+      'prawo sprzeciwu',
+      'prawo do cofnięcia zgody, jeśli przetwarzanie odbywa się na podstawie zgody',
+      'prawo kontaktu w sprawach dotyczących danych',
+    ],
+  },
+  {
+    title: 'Czas przechowywania danych',
+    text: [
+      'Dane z formularza i konfiguratora są przechowywane przez okres potrzebny do obsługi zapytania i ewentualnej dalszej korespondencji.',
+      'Jeśli współpraca nie zostanie rozpoczęta, dane nie są przechowywane dłużej niż jest to potrzebne do obsługi zapytania, chyba że przepisy wymagają dłuższego przechowywania.',
+    ],
+  },
+  {
+    title: 'Dobrowolność podania danych',
+    text: [
+      'Podanie danych jest dobrowolne.',
+      'Brak podania danych kontaktowych może jednak uniemożliwić odpowiedź na wiadomość lub przygotowanie propozycji współpracy.',
+    ],
+  },
+  {
+    title: 'Zmiany polityki prywatności',
+    text: [
+      'Polityka prywatności może być aktualizowana.',
+      'Aktualna wersja jest zawsze dostępna na tej podstronie.',
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Polityka prywatności | DreamWeb Studio"
+  description="Informacje o przetwarzaniu danych, formularzu kontaktowym, konfiguratorze, cookies, narzędziach analitycznych i obsłudze wiadomości w DreamWeb Studio."
+  canonical="/polityka-prywatnosci/"
+>
+  <PageHero
+    badge="PRYWATNOŚĆ"
+    title="Polityka prywatności"
+    text="Poniżej znajdziesz informacje o tym, jakie dane mogą być przetwarzane podczas korzystania ze strony DreamWeb Studio, formularza kontaktowego i konfiguratora projektu."
+    primary="Przejdź do kontaktu"
+    primaryHref="/kontakt"
+    secondary="Wróć na stronę główną"
+    secondaryHref="/"
+  />
+
+  <section class="section section-night privacy-page">
+    <div class="container">
+      <div class="privacy-content">
+        <p class="privacy-updated">Ostatnia aktualizacja: 21 maja 2026</p>
+        {sections.map((section) => (
+          <article class="card privacy-card">
+            <h2>{section.title}</h2>
+            {section.text?.map((paragraph) => <p>{paragraph}</p>)}
+            {section.list && (
+              <ul class="check-list">
+                {section.list.map((item) => <li>{item}</li>)}
+              </ul>
+            )}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

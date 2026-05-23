@@ -1,0 +1,17 @@
+{
+  "name": "dreamweb-studio-astro",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource-variable/manrope": "^5.0.0",
+    "@fontsource-variable/sora": "^5.0.0",
+    "astro": "^5.15.6",
+    "resend": "^6.9.0"
+  }
+}

@@ -1,0 +1,8 @@
+---
+import ArticleLayout from '../../components/ArticleLayout.astro';
+import { knowledgeArticles } from '../../data/knowledge.js';
+
+const article = knowledgeArticles.find((item) => item.slug === 'ile-kosztuje-strona-internetowa');
+---
+
+<ArticleLayout article={article} />

@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Configurator from '../components/Configurator.astro';
+---
+<BaseLayout title="Konfigurator projektu strony | DreamWeb Studio" description="Skorzystaj z krótkiego konfiguratora i określ, jakiej strony, oferty PDF lub wsparcia online potrzebuje Twoja firma.">
+  <PageHero badge="KONFIGURATOR" title="Zbuduj wstępny zakres swojej strony" text="Przejdź przez krótki konfigurator i zaznacz, czego potrzebujesz. Na końcu zostaw kontakt — odezwę się z konkretną propozycją." primary="Rozpocznij konfigurację" primaryHref="#konfigurator" secondary="Kontakt" secondaryHref="/kontakt" />
+  <section class="section section-night" id="konfigurator"><div class="container"><Configurator /></div></section>
+</BaseLayout>

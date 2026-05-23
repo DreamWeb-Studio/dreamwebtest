@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const gains = [
+  ['Bezpośredni kontakt', 'Rozmawiasz ze mną od pierwszej wiadomości do publikacji. Bez przekazywania spraw między osobami i bez gubienia kontekstu.'],
+  ['Jasny zakres przed startem', 'Wiesz, co robimy, co jest w cenie i co może być dodatkowym etapem. To zmniejsza stres i liczbę niespodzianek.'],
+  ['Strona pod zapytania', 'Projekt ma prowadzić klienta do kontaktu: przez czytelną ofertę, mocne CTA i prosty układ.'],
+  ['Pomoc po wdrożeniu', 'Po publikacji możesz wrócić z pytaniami, drobnymi zmianami i kolejnymi pomysłami na rozwój.'],
+];
+
+const approach = [
+  'Najpierw porządkuję cel strony i najważniejsze informacje dla klienta.',
+  'Projektuję układ tak, żeby oferta była zrozumiała bez długiego tłumaczenia.',
+  'Dbam o mobile, szybkość, podstawy SEO i techniczny porządek.',
+  'Pokazuję postępy i tłumaczę decyzje prostym językiem.',
+];
+---
+<BaseLayout title="Dlaczego warto pracować ze mną? | DreamWeb Studio" description="Zobacz, jak wygląda współpraca z DreamWeb Studio i dlaczego bezpośredni kontakt, przejrzysty proces i dopracowany projekt pomagają szybciej wystartować online.">
+  <PageHero badge="DLACZEGO JA" title="Dlaczego warto pracować ze mną?" text="Pomagam małym firmom wyglądać lepiej online bez agencyjnego dystansu i technicznego chaosu. Pracujesz bezpośrednio ze mną, a ja pilnuję projektu od pomysłu do publikacji." />
+
+  <section class="section section-night">
+    <div class="container why-split">
+      <div class="why-lead card">
+        <span class="badge">Bez pośredników</span>
+        <h2>Bez pośredników i korporacyjnego chaosu</h2>
+        <p>Nie musisz przechodzić przez kilka osób, żeby ustalić prostą rzecz. Rozmawiamy konkretnie, ustalamy priorytety i budujemy stronę, która ma pomóc Twojej firmie lepiej pokazać ofertę.</p>
+      </div>
+      <div class="why-list stagger-grid">
+        {gains.map(([title, text], index) => (
+          <article class="why-point">
+            <span class="timeline-number">0{index + 1}</span>
+            <div>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Jak podchodzę do projektu?</h2>
+        <p>Najpierw porządek i cel, potem wygląd. Dzięki temu strona nie jest tylko ładnym ekranem, ale praktycznym narzędziem do kontaktu z klientem.</p>
+      </div>
+      <div class="approach-panel card">
+        <div>
+          <span class="badge">Proces bez zgadywania</span>
+          <h3>Co zyskujesz we współpracy?</h3>
+          <p>Spokojny proces, konkretną komunikację i projekt przygotowany pod realne używanie: kontakt, prezentację oferty, mobile, szybkość i dalszy rozwój.</p>
+        </div>
+        <ul class="check-list">
+          {approach.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-night">
+    <div class="container">
+      <div class="card cta-card">
+        <h2>Chcesz sprawdzić, co ma sens dla Twojej firmy?</h2>
+        <p>Przejdź przez konfigurator albo napisz krótko, czego potrzebujesz. Odpowiem konkretnie i bez zobowiązań.</p>
+        <div class="button-row">
+          <a class="button button-primary" href="/konfigurator">Zacznij od konfiguratora</a>
+          <a class="button button-secondary" href="/kontakt">Napisz do mnie</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,499 @@
+---
+const projectTypes = [
+  ['website', 'Strona internetowa', 'Dla firmy, która chce jasno pokazać ofertę, usługi i ułatwić klientom kontakt.'],
+  ['landing', 'Landing page', 'Jedna strona nastawiona na konkretną usługę, kampanię albo szybkie pozyskiwanie zapytań.'],
+  ['pdf', 'Oferta PDF', 'Profesjonalny dokument do wysyłania klientom po rozmowie, wycenie albo zapytaniu.'],
+  ['internet', 'Wprowadzenie do internetu', 'Dla firm, które chcą zacząć działać online i potrzebują pomocy z podstawami.'],
+  ['unsure', 'Nie wiem, potrzebuję pomocy', 'Zaznacz, jeśli chcesz, żebym pomógł dobrać najlepszy wariant.'],
+];
+---
+<div class="configurator" data-configurator>
+  <section class="contact-card">
+    <div class="config-steps" data-config-steps aria-label="Postęp konfiguratora">
+      {['Projekt', 'Zakres', 'Etap', 'Materiały', 'Budżet', 'Kontakt'].map((label, index) => (
+        <button class:list={['config-step', index === 0 && 'is-active']} type="button" data-step-jump={index} aria-current={index === 0 ? 'step' : undefined}>
+          <span>{index + 1}</span>
+          {label}
+        </button>
+      ))}
+    </div>
+    <p class="eyebrow">Krok <span data-step-number>1</span> z 6</p>
+    <h2 data-step-title>Co chcesz stworzyć?</h2>
+    <p data-step-help>Wybierz jedną główną opcję. Od tego zależą kolejne pytania.</p>
+    <div data-step-content class="option-grid">
+      {projectTypes.map(([id, label, description]) => (
+        <button class="option-card" type="button" data-project-type={id}>
+          <strong>{label}</strong>
+          <span style="display:block; margin-top: 8px; color: var(--muted); line-height: 1.55;">{description}</span>
+        </button>
+      ))}
+    </div>
+    <p class="card" hidden data-config-error></p>
+    <p class="form-status" hidden data-config-status></p>
+    <div class="button-row" style="margin-top: 24px;">
+      <button class="button button-secondary" type="button" data-prev disabled>Wstecz</button>
+      <button class="button button-primary" type="button" data-next>Dalej</button>
+    </div>
+  </section>
+  <aside class="contact-card summary-panel">
+    <span class="badge">Twoja konfiguracja</span>
+    <div data-summary style="margin-top: 18px;">
+      <p>Wybierz kilka opcji, a tutaj zobaczysz podsumowanie projektu.</p>
+    </div>
+  </aside>
+</div>
+
+<script>
+  const root = document.querySelector('[data-configurator]');
+  if (root) {
+    const projectTypes = [
+      ['website', 'Strona internetowa', 'Dla firmy, która chce jasno pokazać ofertę, usługi i ułatwić klientom kontakt.'],
+      ['landing', 'Landing page', 'Jedna strona nastawiona na konkretną usługę, kampanię albo szybkie pozyskiwanie zapytań.'],
+      ['pdf', 'Oferta PDF', 'Profesjonalny dokument do wysyłania klientom po rozmowie, wycenie albo zapytaniu.'],
+      ['internet', 'Wprowadzenie do internetu', 'Dla firm, które chcą zacząć działać online i potrzebują pomocy z podstawami.'],
+      ['unsure', 'Nie wiem, potrzebuję pomocy', 'Zaznacz, jeśli chcesz, żebym pomógł dobrać najlepszy wariant.'],
+    ];
+    const stepTitle = root.querySelector('[data-step-title]');
+    const stepHelp = root.querySelector('[data-step-help]');
+    const stepNumber = root.querySelector('[data-step-number]');
+    const content = root.querySelector('[data-step-content]');
+    const summary = root.querySelector('[data-summary]');
+    const error = root.querySelector('[data-config-error]');
+    const status = root.querySelector('[data-config-status]');
+    const next = root.querySelector('[data-next]');
+    const prev = root.querySelector('[data-prev]');
+    const stepButtons = root.querySelectorAll('[data-step-jump]');
+    let isSending = false;
+    const state = {
+      step: 0,
+      maxStep: 0,
+      projectType: '',
+      scope: [],
+      stage: '',
+      materials: {},
+      budget: '',
+      model: '',
+      subscriptionPackage: '',
+      timeline: '',
+      notice: '',
+      contact: {},
+    };
+    const labels = {
+      website: 'Strona internetowa',
+      landing: 'Landing page',
+      pdf: 'Oferta PDF',
+      internet: 'Wprowadzenie do internetu',
+      unsure: 'Nie wiem, potrzebuję pomocy',
+    };
+    const scopes = {
+      website: ['Sekcja usług / oferta', 'O firmie', 'Realizacje / portfolio', 'Opinie klientów', 'Cennik / pakiety', 'FAQ', 'Galeria zdjęć', 'Blog / poradnik', 'Mapa Google', 'Szybki kontakt: WhatsApp / telefon', 'Animacje i efekty', 'Analityka', 'Nie wiem — doradź mi'],
+      landing: ['Mocna sekcja hero', 'Sekcja problem–rozwiązanie', 'Sekcja korzyści', 'Oferta / usługa', 'CTA / przyciski kontaktu', 'Formularz kontaktowy', 'Opinie / dowody zaufania', 'FAQ', 'Liczby / efekty', 'Analityka', 'Nie wiem — doradź mi'],
+      pdf: ['Okładka', 'Krótki opis firmy', 'Zakres oferty', 'Warianty / pakiety', 'Cennik / wycena', 'Harmonogram prac', 'Warunki współpracy', 'Zdjęcia / wizualizacje', 'FAQ w PDF', 'Dane kontaktowe', 'CTA końcowe', 'Nie wiem — doradź mi'],
+      internet: ['Domena', 'Hosting', 'Strona startowa / landing page', 'Wizytówka Google', 'Podstawowe SEO', 'Formularz kontaktowy', 'E-mail firmowy', 'Social media start', 'Linki do WhatsApp / telefon', 'Analityka', 'Nie wiem — doradź mi'],
+      unsure: ['Nie mam jeszcze żadnej strony', 'Mam stronę, ale wygląda słabo', 'Mam stronę, ale nie dostaję zapytań', 'Potrzebuję lepszej oferty PDF', 'Chcę zacząć działać w internecie', 'Nie wiem, od czego zacząć'],
+    };
+    const stages = {
+      pdf: ['Mam już treść oferty', 'Mam tylko luźne informacje', 'Mam cennik, ale chcę lepszą prezentację', 'Chcę stworzyć dokument od zera', 'Nie wiem, jak to ułożyć'],
+      default: ['Mam firmę, ale nie mam strony', 'Mam starą stronę i chcę nową', 'Mam stronę, ale nie działa sprzedażowo', 'Dopiero planuję start', 'Nie wiem, od czego zacząć'],
+    };
+    const materialGroups = [
+      {
+        id: 'logo',
+        title: 'Logo',
+        type: 'single',
+        options: ['Mam logo', 'Nie mam logo', 'Mam, ale wymaga odświeżenia'],
+      },
+      {
+        id: 'photos',
+        title: 'Zdjęcia',
+        type: 'single',
+        options: ['Mam własne zdjęcia', 'Nie mam zdjęć', 'Mam kilka, ale nie wiem, czy się nadają'],
+      },
+      {
+        id: 'content',
+        title: 'Treści',
+        type: 'single',
+        options: ['Mam gotowe teksty', 'Mam tylko luźne informacje', 'Potrzebuję pomocy z tekstami'],
+      },
+      {
+        id: 'domain',
+        title: 'Domena',
+        type: 'single',
+        options: ['Mam domenę', 'Nie mam domeny', 'Nie wiem, co wybrać'],
+      },
+      {
+        id: 'pdfMaterials',
+        title: 'Materiały do PDF',
+        type: 'multi',
+        pdfOnly: true,
+        options: ['Mam gotową treść', 'Mam tylko wycenę / notatki', 'Mam zdjęcia lub wizualizacje', 'Potrzebuję pomocy z uporządkowaniem dokumentu'],
+      },
+    ];
+    const budget = ['do 1000 zł', '1000–2500 zł', '2500–5000 zł', 'abonament', 'nie wiem'];
+    const pdfBudget = ['do 1000 zł', '1000–2500 zł', '2500–5000 zł', 'nie wiem'];
+    const model = ['Płatność jednorazowa', 'Strona w abonamencie', 'Nie wiem, chcę porównać opcje'];
+    const pdfModel = ['Płatność jednorazowa', 'PDF jako część większego projektu', 'Nie wiem'];
+    const subscriptionPackages = ['START', 'STANDARD', 'PREMIUM'];
+    const timeline = ['Jak najszybciej', 'W tym miesiącu', 'W ciągu 2–3 miesięcy', 'Bez pośpiechu'];
+    const renderOptions = (items, field, multi = false) => {
+      content.className = 'option-grid';
+      content.innerHTML = items.map((item) => `<button class="option-card" type="button" data-value="${item}"><strong>${item}</strong></button>`).join('');
+      content.querySelectorAll('[data-value]').forEach((button) => {
+        const selected = multi ? state[field].includes(button.dataset.value) : state[field] === button.dataset.value;
+        button.classList.toggle('is-selected', selected);
+        button.addEventListener('click', () => {
+          if (multi) {
+            const value = button.dataset.value;
+            state[field] = state[field].includes(value) ? state[field].filter((x) => x !== value) : [...state[field], value];
+          } else {
+            state[field] = button.dataset.value;
+          }
+          render();
+        });
+      });
+    };
+    const getMaterialSummary = () => {
+      const selected = [];
+      materialGroups.forEach((group) => {
+        const value = state.materials[group.id];
+        if (!value) return;
+        if (Array.isArray(value) && value.length > 0) selected.push(`${group.title}: ${value.join(', ')}`);
+        else if (!Array.isArray(value)) selected.push(`${group.title}: ${value}`);
+      });
+      return selected;
+    };
+    const setNotice = (message) => {
+      state.notice = message;
+    };
+    const normalizeCommercialChoices = (changedField = '') => {
+      if (state.projectType === 'pdf') {
+        if (state.model === 'Strona w abonamencie') state.model = '';
+        if (state.budget === 'abonament') state.budget = '';
+        state.subscriptionPackage = '';
+        return;
+      }
+
+      if (changedField === 'budget') {
+        if (state.budget === 'abonament') {
+          state.model = 'Strona w abonamencie';
+          setNotice('Dopasowano model współpracy do wybranego budżetu abonamentowego.');
+        } else if (['do 1000 zł', '1000–2500 zł', '2500–5000 zł'].includes(state.budget)) {
+          if (state.model === 'Strona w abonamencie') {
+            state.model = 'Płatność jednorazowa';
+            setNotice('Dopasowano model współpracy do wybranego budżetu jednorazowego.');
+          }
+          state.subscriptionPackage = '';
+        } else if (state.budget === 'nie wiem' && state.subscriptionPackage) {
+          state.subscriptionPackage = '';
+        }
+      }
+
+      if (changedField === 'model') {
+        if (state.model === 'Strona w abonamencie') {
+          state.budget = 'abonament';
+          setNotice('Dopasowano budżet do modelu abonamentowego.');
+        } else if (state.model === 'Płatność jednorazowa') {
+          if (state.budget === 'abonament') state.budget = '';
+          state.subscriptionPackage = '';
+          setNotice('Usunięto wybory abonamentowe, bo wybrano płatność jednorazową.');
+        } else if (state.model === 'Nie wiem, chcę porównać opcje') {
+          if (state.budget === 'abonament') state.budget = 'nie wiem';
+          state.subscriptionPackage = '';
+          setNotice('Oznaczono model jako do omówienia, bez zapisywania sprzecznych decyzji.');
+        }
+      }
+
+      if (changedField === 'subscriptionPackage') {
+        state.model = 'Strona w abonamencie';
+        state.budget = 'abonament';
+        setNotice('Dopasowano budżet i model do wybranego pakietu abonamentowego.');
+      }
+
+      if (state.subscriptionPackage && state.model !== 'Strona w abonamencie') {
+        state.model = 'Strona w abonamencie';
+        state.budget = 'abonament';
+      }
+      if (state.budget === 'abonament' && state.model === 'Płatność jednorazowa') {
+        state.model = 'Strona w abonamencie';
+        setNotice('Dopasowano model współpracy do wybranego abonamentu.');
+      }
+    };
+    const getSummaryCommercial = () => {
+      if (state.model === 'Nie wiem, chcę porównać opcje' || state.model === 'Nie wiem') {
+        return {
+          budget: state.budget === 'nie wiem' ? 'do ustalenia' : (state.budget || 'do ustalenia'),
+          model: 'do omówienia',
+          package: '',
+        };
+      }
+      return {
+        budget: state.budget || 'Nie podano',
+        model: state.model || 'Nie podano',
+        package: state.subscriptionPackage || '',
+      };
+    };
+    const showConfigStatus = (message, type = 'info') => {
+      if (!status) return;
+      status.textContent = message;
+      status.dataset.status = type;
+      status.hidden = false;
+    };
+    const buildConfigurationPayload = () => {
+      const materialSummary = getMaterialSummary();
+      const commercial = getSummaryCommercial();
+      return {
+        source: 'configurator',
+        companyWebsite: state.contact.companyWebsite || '',
+        contact: {
+          name: state.contact.name || '',
+          email: state.contact.email || '',
+          phone: state.contact.phone || '',
+          company: state.contact.company || '',
+          message: state.contact.message || '',
+        },
+        privacyAccepted: Boolean(state.contact.privacyAccepted),
+        configuration: {
+          'Typ projektu': labels[state.projectType] || 'Nie podano',
+          'Zakres': state.scope,
+          'Etap': state.stage || 'Nie podano',
+          'Materiały': materialSummary,
+          'Budżet': commercial.budget,
+          'Model współpracy': commercial.model,
+          'Pakiet abonamentowy': commercial.package || 'Nie dotyczy',
+          'Termin': state.timeline || 'Nie podano',
+        },
+      };
+    };
+    const submitConfiguration = async () => {
+      if (isSending) return;
+      isSending = true;
+      next.disabled = true;
+      prev.disabled = true;
+      next.textContent = 'Wysyłanie...';
+      showConfigStatus('Wysyłam konfigurację...', 'info');
+
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(buildConfigurationPayload()),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || result.ok === false) {
+          throw new Error(result.message || 'Nie udało się wysłać konfiguracji.');
+        }
+        content.innerHTML = '<div class="card"><h3>Dzięki! Otrzymałem konfigurację projektu.</h3><p>Odezwę się z konkretną propozycją na podany kontakt. Szczegóły dopracujemy w rozmowie.</p></div>';
+        showConfigStatus('Dziękuję, konfiguracja została wysłana. Odpowiem możliwie szybko.', 'success');
+        next.hidden = true;
+        prev.disabled = false;
+      } catch (error) {
+        showConfigStatus('Nie udało się wysłać konfiguracji. Spróbuj ponownie albo skontaktuj się przez WhatsApp lub telefon.', 'error');
+        next.disabled = false;
+        prev.disabled = false;
+        next.textContent = 'Wyślij konfigurację';
+      } finally {
+        isSending = false;
+      }
+    };
+    const renderMaterials = () => {
+      content.className = 'material-groups';
+      const groups = materialGroups.filter((group) => !group.pdfOnly || state.projectType === 'pdf');
+      content.innerHTML = groups.map((group) => `
+        <section class="material-group" data-material-group="${group.id}">
+          <div class="material-group-head">
+            <h3>${group.title}</h3>
+            <span>${group.type === 'single' ? 'wybierz jedną opcję' : 'możesz wybrać kilka'}</span>
+          </div>
+          <div class="option-grid">
+            ${group.options.map((item) => {
+              const value = state.materials[group.id];
+              const selected = Array.isArray(value) ? value.includes(item) : value === item;
+              return `<button class="option-card ${selected ? 'is-selected' : ''}" type="button" data-material="${group.id}" data-material-type="${group.type}" data-value="${item}"><strong>${item}</strong></button>`;
+            }).join('')}
+          </div>
+        </section>
+      `).join('');
+      content.querySelectorAll('[data-material]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const groupId = button.dataset.material;
+          const type = button.dataset.materialType;
+          const value = button.dataset.value;
+          if (type === 'single') {
+            state.materials[groupId] = state.materials[groupId] === value ? '' : value;
+          } else {
+            const current = Array.isArray(state.materials[groupId]) ? state.materials[groupId] : [];
+            state.materials[groupId] = current.includes(value) ? current.filter((item) => item !== value) : [...current, value];
+          }
+          state.notice = '';
+          render();
+        });
+      });
+    };
+    const renderContact = () => {
+      content.className = 'form-grid';
+      content.innerHTML = `
+        <label class="field">Imię<input class="input" name="name" required></label>
+        <label class="field">E-mail<input class="input" name="email" type="email"></label>
+        <label class="field">Telefon<input class="input" name="phone" type="tel"></label>
+        <label class="field">Nazwa firmy<input class="input" name="company"></label>
+        <label class="field" style="grid-column:1/-1">Wiadomość<textarea class="textarea" name="message" rows="5" placeholder="Napisz krótko, czym zajmuje się firma i co chcesz osiągnąć."></textarea></label>
+        <label class="privacy-consent" style="grid-column:1/-1">
+          <input name="privacyAccepted" type="checkbox" required>
+          <span>Akceptuję <a href="/polityka-prywatnosci">politykę prywatności</a> i zgadzam się na przetwarzanie danych w celu obsługi konfiguracji projektu.</span>
+        </label>
+        <label class="honeypot-field" aria-hidden="true">Strona firmowa<input name="companyWebsite" tabindex="-1" autocomplete="off"></label>
+      `;
+      content.querySelectorAll('input, textarea').forEach((field) => {
+        if (field.type === 'checkbox') {
+          field.checked = Boolean(state.contact[field.name]);
+          field.addEventListener('change', () => { state.contact[field.name] = field.checked; updateSummary(); });
+        } else {
+          field.value = state.contact[field.name] || '';
+          field.addEventListener('input', () => { state.contact[field.name] = field.value; updateSummary(); });
+        }
+      });
+    };
+    const validate = () => {
+      normalizeCommercialChoices();
+      const email = (state.contact.email || '').trim();
+      const emailOk = !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (state.step === 0 && !state.projectType) return 'Wybierz jedną z opcji, żeby przejść dalej.';
+      if (state.step === 1 && state.scope.length === 0) return 'Wybierz jedną z opcji, żeby przejść dalej.';
+      if (state.step === 2 && !state.stage) return 'Wybierz etap, żeby przejść dalej.';
+      if (state.step === 4 && !state.budget && !state.model && !state.timeline) return 'Wybierz budżet, model współpracy albo termin.';
+      if (state.step === 4 && state.budget === 'abonament' && state.model === 'Płatność jednorazowa') return 'Wybierz jedną ścieżkę: abonament albo płatność jednorazową.';
+      if (state.step === 5 && (!state.contact.name || (!state.contact.email && !state.contact.phone))) return 'Podaj imię oraz e-mail albo telefon.';
+      if (state.step === 5 && !emailOk) return 'Podaj poprawny adres e-mail albo zostaw to pole puste i podaj telefon.';
+      if (state.step === 5 && !state.contact.privacyAccepted) return 'Aby wysłać konfigurację, zaakceptuj politykę prywatności.';
+      return '';
+    };
+    const updateSummary = () => {
+      const materialSummary = getMaterialSummary();
+      const commercial = getSummaryCommercial();
+      summary.innerHTML = `
+        <p><strong>Typ:</strong> ${labels[state.projectType] || 'Jeszcze nie wybrano'}</p>
+        <p><strong>Zakres:</strong> ${state.scope.join(', ') || 'Jeszcze nie wybrano'}</p>
+        <p><strong>Etap:</strong> ${state.stage || 'Jeszcze nie wybrano'}</p>
+        <p><strong>Materiały:</strong> ${materialSummary.join(' / ') || 'Nie podano'}</p>
+        <p><strong>Budżet:</strong> ${commercial.budget}</p>
+        <p><strong>Model:</strong> ${commercial.model}</p>
+        ${commercial.package ? `<p><strong>Pakiet abonamentowy:</strong> ${commercial.package}</p>` : ''}
+        <p><strong>Termin:</strong> ${state.timeline || 'Nie podano'}</p>
+      `;
+    };
+    const updateSteps = () => {
+      stepButtons.forEach((button) => {
+        const step = Number(button.dataset.stepJump);
+        const isActive = step === state.step;
+        const isAvailable = step <= state.maxStep;
+        button.classList.toggle('is-active', isActive);
+        button.classList.toggle('is-complete', step < state.maxStep);
+        button.classList.toggle('is-locked', !isAvailable);
+        button.disabled = !isAvailable;
+        if (isActive) button.setAttribute('aria-current', 'step');
+        else button.removeAttribute('aria-current');
+      });
+    };
+    const render = () => {
+      error.hidden = true;
+      if (status) status.hidden = true;
+      stepNumber.textContent = String(state.step + 1);
+      next.hidden = false;
+      prev.disabled = state.step === 0;
+      next.textContent = state.step === 5 ? 'Wyślij konfigurację' : 'Dalej';
+      updateSteps();
+      if (state.step === 0) {
+        stepTitle.textContent = 'Co chcesz stworzyć?';
+        stepHelp.textContent = 'Wybierz jedną główną opcję. Od tego zależą kolejne pytania.';
+        content.className = 'option-grid';
+        content.innerHTML = projectTypes.map(([id, label, description]) => `<button class="option-card ${state.projectType === id ? 'is-selected' : ''}" type="button" data-project-type="${id}"><strong>${label}</strong><span style="display:block;margin-top:8px;color:var(--muted);line-height:1.55">${description}</span></button>`).join('');
+        content.querySelectorAll('[data-project-type]').forEach((button) => button.addEventListener('click', () => {
+          if (state.projectType !== button.dataset.projectType) {
+            state.projectType = button.dataset.projectType;
+            state.scope = [];
+            state.stage = '';
+            state.materials = {};
+            state.budget = '';
+            state.model = '';
+            state.subscriptionPackage = '';
+            state.timeline = '';
+            state.notice = '';
+            state.maxStep = 0;
+          }
+          render();
+        }));
+      } else if (state.step === 1) {
+        stepTitle.textContent = state.projectType === 'pdf' ? 'Co ma znaleźć się w PDF?' : state.projectType === 'internet' ? 'W czym potrzebujesz pomocy?' : 'Zakres projektu';
+        stepHelp.textContent = 'Konfigurator pokazuje opcje dopasowane do wybranego typu projektu.';
+        renderOptions(scopes[state.projectType] || scopes.unsure, 'scope', true);
+      } else if (state.step === 2) {
+        stepTitle.textContent = state.projectType === 'pdf' ? 'Na jakim etapie jest dokument?' : 'Na jakim etapie jesteś?';
+        renderOptions(state.projectType === 'pdf' ? stages.pdf : stages.default, 'stage');
+      } else if (state.step === 3) {
+        stepTitle.textContent = 'Czy masz materiały?';
+        stepHelp.textContent = 'W każdej grupie wybierz odpowiedź, która najlepiej opisuje sytuację. Opcje sprzeczne odznaczają się automatycznie.';
+        state.notice = '';
+        renderMaterials();
+      } else if (state.step === 4) {
+        stepTitle.textContent = 'Budżet i model współpracy';
+        stepHelp.textContent = state.projectType === 'pdf' ? 'Dla PDF wybierz sposób rozliczenia dokumentu, budżet i termin.' : 'Wybierz budżet, model współpracy i termin. Sprzeczne wybory dopasują się automatycznie.';
+        content.className = 'budget-grid';
+        content.innerHTML = '';
+        normalizeCommercialChoices();
+        if (state.notice) {
+          content.insertAdjacentHTML('beforeend', `<p class="config-note">${state.notice}</p>`);
+        }
+        const isPdfOnly = state.projectType === 'pdf';
+        const groups = [
+          ['Budżet', isPdfOnly ? pdfBudget : budget, 'budget'],
+          ['Model', isPdfOnly ? pdfModel : model, 'model'],
+          ['Termin', timeline, 'timeline'],
+        ];
+        if (!isPdfOnly && (state.budget === 'abonament' || state.model === 'Strona w abonamencie' || state.subscriptionPackage)) {
+          groups.push(['Pakiet abonamentowy', subscriptionPackages, 'subscriptionPackage']);
+        }
+        groups.forEach(([title, items, field]) => {
+          const wrap = document.createElement('div');
+          wrap.className = 'card';
+          wrap.innerHTML = `<h3>${title}</h3>${items.map((item) => `<button class="option-card ${state[field] === item ? 'is-selected' : ''}" type="button" data-field="${field}" data-value="${item}">${item}${field === 'subscriptionPackage' ? '<span class="option-hint">pakiet abonamentowy</span>' : ''}</button>`).join('')}`;
+          content.appendChild(wrap);
+        });
+        content.querySelectorAll('[data-field]').forEach((button) => button.addEventListener('click', () => {
+          state.notice = '';
+          state[button.dataset.field] = button.dataset.value;
+          normalizeCommercialChoices(button.dataset.field);
+          render();
+        }));
+      } else {
+        stepTitle.textContent = 'Kontakt';
+        stepHelp.textContent = 'Zostaw kontakt, a ja wrócę z konkretną odpowiedzią.';
+        renderContact();
+      }
+      updateSummary();
+    };
+    next.addEventListener('click', () => {
+      const message = validate();
+      if (message) {
+        error.textContent = message;
+        error.hidden = false;
+        return;
+      }
+      if (state.step === 5) {
+        submitConfiguration();
+        return;
+      }
+      state.step += 1;
+      state.maxStep = Math.max(state.maxStep, state.step);
+      render();
+    });
+    prev.addEventListener('click', () => { state.step = Math.max(0, state.step - 1); render(); });
+    stepButtons.forEach((button) => button.addEventListener('click', () => {
+      const step = Number(button.dataset.stepJump);
+      if (step <= state.maxStep) {
+        state.step = step;
+        render();
+      }
+    }));
+    render();
+  }
+</script>

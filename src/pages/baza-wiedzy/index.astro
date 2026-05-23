@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { knowledgeArticles } from '../../data/knowledge.js';
+---
+
+<BaseLayout
+  title="Baza wiedzy | DreamWeb Studio"
+  description="Praktyczne poradniki o stronach internetowych, landing page’ach, ofertach PDF, SEO, UI/UX i przygotowaniu firmy do działania online."
+  canonical="/baza-wiedzy/"
+>
+  <PageHero
+    badge="BAZA WIEDZY"
+    title="Baza wiedzy"
+    text="Praktyczne poradniki o stronach internetowych, landing page’ach, ofertach PDF, SEO, UI/UX i przygotowaniu firmy do działania online."
+    primary="Skonfiguruj projekt"
+    primaryHref="/konfigurator"
+    secondary="Sprawdź cennik"
+    secondaryHref="/cennik"
+  />
+
+  <section class="section section-night knowledge-page">
+    <div class="container">
+      <div class="section-title">
+        <span class="badge">PORADNIKI</span>
+        <h2>Od zakresu po pierwsze zapytania</h2>
+        <p>Na start zebrałem trzy tematy, które najczęściej pojawiają się przed stworzeniem strony: cena, wybór typu strony i elementy, które realnie budują zaufanie.</p>
+      </div>
+
+      <div class="knowledge-grid stagger-grid">
+        {knowledgeArticles.map((article) => (
+          <article class="card knowledge-card">
+            <div class="knowledge-card-meta">
+              <span>{article.category}</span>
+              <small>{article.published}</small>
+            </div>
+            <h3>{article.title}</h3>
+            <p>{article.description}</p>
+            <a class="knowledge-card-link" href={article.href}>Czytaj artykuł</a>
+          </article>
+        ))}
+      </div>
+
+      <div class="knowledge-cta card">
+        <div>
+          <span class="badge">NIE WIESZ, OD CZEGO ZACZĄĆ?</span>
+          <h2>Dobierz zakres bez zgadywania</h2>
+          <p>Przejdź przez konfigurator i sprawdź, jaki zakres będzie najlepszy dla Twojej firmy.</p>
+        </div>
+        <a class="button button-primary" href="/konfigurator">Przejdź przez konfigurator</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

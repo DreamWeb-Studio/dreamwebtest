@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactIcon from '../components/ContactIcon.astro';
+import { contactLinks, contactMethods } from '../data/site.js';
+---
+<BaseLayout title="Kontakt | DreamWeb Studio" description="Napisz do DreamWeb Studio, jeśli chcesz stworzyć stronę internetową, landing page, ofertę PDF albo uporządkować obecność firmy online.">
+  <PageHero badge="KONTAKT" title="Porozmawiajmy o Twoim projekcie" text="Masz pytanie, chcesz wycenę albo nie wiesz, od czego zacząć? Napisz — odpowiem konkretnie i bez zobowiązań." primary="Przejdź do konfiguratora" primaryHref="/konfigurator" secondary="WhatsApp" secondaryHref={contactLinks.whatsapp} />
+  <section class="section section-night contact-section">
+    <div class="container">
+      <div class="grid-2 contact-grid">
+        <form class="contact-card contact-form-card" data-contact-form novalidate>
+          <h2>Szybka wiadomość</h2>
+          <p>Jeśli wiesz, o co chcesz zapytać, napisz od razu. Formularz wyśle wiadomość bezpośrednio do DreamWeb Studio.</p>
+          <label class="honeypot-field" aria-hidden="true">Strona firmowa<input name="companyWebsite" tabindex="-1" autocomplete="off" /></label>
+          <div class="form-grid">
+            <label class="field">Imię<input class="input" name="name" required autocomplete="name" /></label>
+            <label class="field">E-mail<input class="input" name="email" type="email" required autocomplete="email" /></label>
+            <label class="field">Telefon<input class="input" name="phone" type="tel" autocomplete="tel" /></label>
+            <label class="field">Typ sprawy
+              <select class="select" name="topic" required>
+                <option>strona internetowa</option>
+                <option>oferta PDF</option>
+                <option>strona w abonamencie</option>
+                <option>pytanie ogólne</option>
+                <option>nie wiem</option>
+              </select>
+            </label>
+          </div>
+          <label class="field contact-message-field">Wiadomość<textarea class="textarea" name="message" rows="6" required></textarea></label>
+          <label class="privacy-consent">
+            <input name="privacyAccepted" type="checkbox" required />
+            <span>Akceptuję <a href="/polityka-prywatnosci">politykę prywatności</a> i zgadzam się na przetwarzanie danych w celu obsługi wiadomości.</span>
+          </label>
+          <p class="form-status" hidden data-contact-status></p>
+          <button class="button button-primary contact-submit" type="submit">Wyślij wiadomość</button>
+          <div class="contact-form-note" aria-label="Co dzieje się po wysłaniu formularza">
+            <strong>Co dzieje się po wysłaniu?</strong>
+            <ul>
+              <li>Odpowiem konkretnie, bez zobowiązań.</li>
+              <li>Jeśli trzeba, pomogę doprecyzować zakres.</li>
+              <li>Pierwsza rozmowa i wycena są darmowe.</li>
+            </ul>
+          </div>
+        </form>
+        <aside class="contact-card contact-side-card">
+          <span class="badge">Szybki kontakt</span>
+          <h2>Wolisz napisać od razu?</h2>
+          <p>Formularz sprawdzi się przy dłuższym opisie projektu. Jeśli chcesz szybko zapytać o termin, zakres albo pierwszą wycenę, wybierz jedną z krótkich ścieżek poniżej.</p>
+          <div class="contact-methods">
+            {contactMethods.map((method) => (
+              <a class="contact-method" href={method.href} target={method.external ? '_blank' : undefined} rel={method.external ? 'noopener noreferrer' : undefined}>
+                <span class="contact-method-icon" aria-hidden="true">
+                  <ContactIcon name={method.id} />
+                </span>
+                <strong>{method.label}</strong>
+                <small>{method.description}<br />{method.detail}</small>
+              </a>
+            ))}
+          </div>
+          <div class="contact-helper-box">
+            <strong>Nie wiesz, od czego zacząć?</strong>
+            <p>Konfigurator pomoże uporządkować typ projektu, budżet, materiały i najważniejsze potrzeby.</p>
+            <a class="button button-secondary" href="/konfigurator">Przejdź do konfiguratora</a>
+          </div>
+          <div class="contact-microcopy">
+            <span>Pierwsza rozmowa i wycena są darmowe.</span>
+            <span>Odpowiadam konkretnie, bez zobowiązań.</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+  <script>
+    const contactForm = document.querySelector('[data-contact-form]');
+    if (contactForm) {
+      const status = contactForm.querySelector('[data-contact-status]');
+      const submit = contactForm.querySelector('[type="submit"]');
+      const defaultSubmitText = submit?.textContent || 'Wyślij wiadomość';
+      const showStatus = (message, type = 'info') => {
+        if (!status) return;
+        status.textContent = message;
+        status.dataset.status = type;
+        status.hidden = false;
+      };
+      const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+      contactForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(contactForm));
+        const payload = {
+          source: 'contact',
+          companyWebsite: String(data.companyWebsite || '').trim(),
+          name: String(data.name || '').trim(),
+          email: String(data.email || '').trim(),
+          phone: String(data.phone || '').trim(),
+          topic: String(data.topic || '').trim(),
+          message: String(data.message || '').trim(),
+          privacyAccepted: data.privacyAccepted === 'on',
+        };
+
+        if (!payload.name || !payload.email || !payload.topic || !payload.message) {
+          showStatus('Uzupełnij imię, e-mail, typ sprawy i wiadomość.', 'error');
+          return;
+        }
+        if (!isValidEmail(payload.email)) {
+          showStatus('Podaj poprawny adres e-mail.', 'error');
+          return;
+        }
+        if (!payload.privacyAccepted) {
+          showStatus('Aby wysłać formularz, zaakceptuj politykę prywatności.', 'error');
+          return;
+        }
+
+        submit.disabled = true;
+        submit.textContent = 'Wysyłanie...';
+        showStatus('Wysyłam wiadomość...', 'info');
+
+        try {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok || result.ok === false) {
+            throw new Error(result.message || 'Nie udało się wysłać wiadomości.');
+          }
+          contactForm.reset();
+          showStatus('Dziękuję, wiadomość została wysłana. Odpowiem możliwie szybko.', 'success');
+        } catch (error) {
+          showStatus('Nie udało się wysłać wiadomości. Spróbuj ponownie albo skontaktuj się przez WhatsApp lub telefon.', 'error');
+        } finally {
+          submit.disabled = false;
+          submit.textContent = defaultSubmitText;
+        }
+      });
+    }
+  </script>
+</BaseLayout>

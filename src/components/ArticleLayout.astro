@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const { article } = Astro.props;
+---
+
+<BaseLayout
+  title={article.seoTitle}
+  description={article.seoDescription}
+  canonical={`${article.href}/`}
+  ogType="article"
+>
+  <article class="article-page">
+    <header class="article-hero page-hero">
+      <span class="hero-mouse-glow" aria-hidden="true"></span>
+      <div class="container">
+        <a class="back-link" href="/baza-wiedzy">← Wróć do bazy wiedzy</a>
+        <div class="article-meta">
+          <span class="badge">{article.category}</span>
+          <span>{article.published}</span>
+        </div>
+        <h1>{article.title}</h1>
+        <p>{article.lead}</p>
+      </div>
+    </header>
+
+    <section class="section section-night article-section-wrap">
+      <div class="container article-layout">
+        <aside class="article-toc card" aria-label="Spis treści">
+          <strong>W artykule</strong>
+          <nav>
+            {article.sections.map((section) => (
+              <a href={`#${section.title.toLowerCase().replaceAll(' ', '-').replaceAll('?', '').replaceAll('—', '-').replaceAll(',', '')}`}>
+                {section.title}
+              </a>
+            ))}
+          </nav>
+        </aside>
+
+        <div class="article-content card">
+          {article.sections.map((section) => {
+            const id = section.title.toLowerCase().replaceAll(' ', '-').replaceAll('?', '').replaceAll('—', '-').replaceAll(',', '');
+            return (
+              <section class="article-block" id={id}>
+                <h2>{section.title}</h2>
+                {section.paragraphs.map((paragraph) => <p set:html={paragraph} />)}
+                {section.callout && <div class="article-callout">{section.callout}</div>}
+              </section>
+            );
+          })}
+
+          <div class="article-cta">
+            <span>Co dalej?</span>
+            <p>{article.cta.text}</p>
+            <a class="button button-primary" href={article.cta.href}>{article.cta.label}</a>
+          </div>
+
+          <a class="article-back" href="/baza-wiedzy">← Zobacz pozostałe poradniki</a>
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

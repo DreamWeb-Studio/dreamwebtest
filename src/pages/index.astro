@@ -1,0 +1,416 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceCards from '../components/ServiceCards.astro';
+import ProjectsShowcase from '../components/ProjectsShowcase.astro';
+import FAQList from '../components/FAQList.astro';
+
+const deliverables = [
+  ['Projekt dopasowany do firmy', 'Układ i treści prowadzą klienta od pierwszego wrażenia do kontaktu.', 'icon-layout', 'Cel strony', 'Strona pokazuje ofertę jasno, bez zbędnego chaosu.'],
+  ['Responsywność', 'Strona wygląda dobrze na telefonie, tablecie i komputerze.', 'icon-mobile', 'Mobile first', 'Wygodne korzystanie na urządzeniach, z których najczęściej wchodzą klienci.'],
+  ['Formularz kontaktowy', 'Klient może szybko wysłać zapytanie bez szukania danych kontaktowych.', 'icon-form', 'Kontakt', 'Krótsza droga od zainteresowania do wiadomości.'],
+  ['Podstawowe SEO', 'Porządkuję nagłówki, meta dane i strukturę strony.', 'icon-search', 'Widoczność', 'Dobra baza pod Google i dalszy rozwój treści.'],
+  ['Wdrożenie i wsparcie', 'Pomagam opublikować stronę i przejść przez pierwsze poprawki po starcie.', 'icon-upload', 'Start online', 'Gotowy projekt zamiast samych plików.'],
+];
+
+const homeProcess = [
+  ['Krótka rozmowa', 'Ustalamy cel strony i najważniejsze potrzeby.'],
+  ['Zakres i wycena', 'Wiesz, co robimy, ile to kosztuje i kiedy startujemy.'],
+  ['Projekt', 'Powstaje układ, treść i kierunek wizualny strony.'],
+  ['Poprawki', 'Dopracowujemy najważniejsze elementy przed publikacją.'],
+  ['Wdrożenie', 'Publikuję stronę i sprawdzam działanie na urządzeniach.'],
+  ['Wsparcie po starcie', 'Możesz wrócić z pytaniami i drobnymi zmianami.'],
+];
+
+const homeAdvantages = [
+  ['Jasny zakres', 'Wiesz, co powstaje i po co.'],
+  ['Prosta komunikacja', 'Bez agencyjnego dystansu i technicznego żargonu.'],
+  ['Strona pod zapytania', 'Projekt prowadzi klienta do kontaktu.'],
+  ['Wsparcie po starcie', 'Możesz wrócić z pytaniami i zmianami.'],
+];
+---
+<BaseLayout
+  title="Strony internetowe dla firm | DreamWeb Studio"
+  description="Tworzę nowoczesne strony internetowe, landing page’e i oferty PDF dla małych firm. Działam z Gniezna i realizuję projekty dla klientów z całej Polski."
+>
+  <section class="hero" data-hero-mouse>
+    <span class="hero-mouse-glow" aria-hidden="true"></span>
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="badge hero-sequence">Strony, oferty PDF i szybki start online</span>
+        <h1 style="margin-top: 22px;">Strona, która wygląda dobrze i pracuje na <span class="gradient-text">Twoje zapytania</span></h1>
+        <p>Tworzę strony WWW, landing page’e i oferty PDF dla małych firm, które chcą jasno pokazać ofertę i zdobywać więcej zapytań.</p>
+        <div class="button-row" style="margin-top: 28px;">
+          <a class="button button-primary" href="/konfigurator">Chcę wycenę strony</a>
+          <a class="button button-secondary" href="/realizacje">Zobacz realizacje</a>
+        </div>
+        <p>Działam z Gniezna i realizuję projekty dla firm z całej Polski. Pierwsza wycena jest darmowa.</p>
+      </div>
+      <div class="hero-visual" data-parallax aria-hidden="true">
+        <div class="browser-card">
+          <div class="browser-top">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <strong>dreamwebstudio.pl</strong>
+            <span class="browser-pill"></span>
+          </div>
+          <div class="browser-screen">
+            <div class="visual-hero-block">
+              <span class="visual-label">studio strony</span>
+              <span class="visual-headline"></span>
+              <span class="fake-line"></span>
+              <span class="fake-line short"></span>
+              <div class="visual-metrics">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            <div class="mini-grid">
+              <div class="mini-card"><span></span><i></i></div>
+              <div class="mini-card"><span></span><i></i></div>
+              <div class="mini-card"><span></span><i></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-card">
+          <div class="phone-speaker"></div>
+          <div class="phone-screen">
+            <span class="visual-label compact"></span>
+            <span class="fake-line short"></span>
+            <span class="fake-line"></span>
+            <div class="phone-stack"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <div class="floating-card">
+          <div class="floating-card-top">
+            <span class="floating-card-icon" aria-hidden="true"></span>
+            <span class="floating-card-status"><i></i>Online</span>
+          </div>
+          <strong>Szybki kontakt</strong>
+          <p>Odpowiadam zwykle tego samego dnia</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section problem-section">
+    <div class="container">
+      <div class="problem-header">
+        <div>
+          <span class="badge">Pierwsze wrażenie online</span>
+          <h2>Twoja firma działa dobrze, ale internet tego nie pokazuje?</h2>
+        </div>
+        <p>Strona, oferta PDF i kontakt powinny szybko pokazać, że warto napisać właśnie do Ciebie.</p>
+      </div>
+      <div class="problem-grid stagger-grid">
+        <article class="problem-card">
+          <div class="problem-card-top">
+            <span class="problem-icon problem-icon-message" aria-hidden="true"></span>
+            <span class="problem-number">01</span>
+          </div>
+          <span class="problem-label">Niejasny przekaz</span>
+          <h3>Klient nie rozumie, co oferujesz</h3>
+          <p>Pomagam uporządkować ofertę tak, żeby klient od razu wiedział, co robisz i co kliknąć dalej.</p>
+          <ul>
+            <li>jaśniejszy układ oferty</li>
+            <li>mocniejsze prowadzenie do kontaktu</li>
+          </ul>
+        </article>
+        <article class="problem-card problem-card-featured">
+          <div class="problem-card-top">
+            <span class="problem-icon problem-icon-document" aria-hidden="true"></span>
+            <span class="problem-number">02</span>
+          </div>
+          <span class="problem-label">Za słaby efekt premium</span>
+          <h3>Oferta wygląda zbyt zwyczajnie</h3>
+          <p>Strona i PDF mogą wyglądać jak dopracowany materiał sprzedażowy, a nie coś złożonego na szybko.</p>
+          <ul>
+            <li>spójny styl i lepsza hierarchia</li>
+            <li>materiały gotowe do wysłania klientowi</li>
+          </ul>
+        </article>
+        <article class="problem-card">
+          <div class="problem-card-top">
+            <span class="problem-icon problem-icon-tools" aria-hidden="true"></span>
+            <span class="problem-number">03</span>
+          </div>
+          <span class="problem-label">Za dużo ustawień</span>
+          <h3>Sprawy techniczne zabierają czas</h3>
+          <p>Domena, hosting, formularz i publikacja nie powinny odciągać Cię od prowadzenia firmy.</p>
+          <ul>
+            <li>porządek od projektu do wdrożenia</li>
+            <li>mniej ustawień po Twojej stronie</li>
+          </ul>
+        </article>
+      </div>
+      <div class="problem-summary">
+        <strong>To właśnie porządkuję w projektach:</strong>
+        <span>komunikat, wygląd, strukturę i drogę do kontaktu.</span>
+        <a href="/uslugi">Zobacz, jak mogę pomóc</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-night" id="uslugi">
+    <div class="container"><div class="section-title"><h2>Jak mogę pomóc Twojej firmie?</h2><p>Wybierz kierunek, a szczegóły sprawdzisz na podstronie usługi.</p></div><ServiceCards compact={true} /></div>
+  </section>
+
+  <section class="section configurator-section">
+    <div class="container configurator-promo">
+      <div class="configurator-promo-copy">
+        <span class="badge">Krótki konfigurator</span>
+        <h2>Nie musisz od razu wiedzieć, jaką stronę zamówić</h2>
+        <p>Odpowiedz na kilka pytań. Łatwiej będzie dobrać zakres, budżet i typ strony bez długich ustaleń.</p>
+        <div class="configurator-cta-panel">
+          <a class="button button-primary configurator-main-cta" href="/konfigurator">Przejdź przez konfigurator</a>
+          <p>Wystarczy zaznaczyć to, co już wiesz. Resztę doprecyzujemy później.</p>
+        </div>
+        <div class="configurator-benefits">
+          <span>około 2 minut</span>
+          <span>bez zobowiązań</span>
+          <span>pytania dopasowane do projektu</span>
+        </div>
+      </div>
+      <div class="configurator-flow">
+        <div class="configurator-steps stagger-grid">
+          <article class="configurator-step-card">
+            <span class="configurator-step-icon icon-choice" aria-hidden="true"></span>
+            <span class="configurator-step-kicker">Krok 01</span>
+            <h3>Wybierasz typ projektu</h3>
+            <p>Strona, landing page, PDF, start online albo wariant „nie wiem jeszcze”.</p>
+          </article>
+          <article class="configurator-step-card">
+            <span class="configurator-step-icon icon-scope" aria-hidden="true"></span>
+            <span class="configurator-step-kicker">Krok 02</span>
+            <h3>Zaznaczasz zakres</h3>
+            <p>Widzisz tylko pasujące opcje: sekcje, materiały, budżet, termin i etap firmy.</p>
+          </article>
+          <article class="configurator-step-card">
+            <span class="configurator-step-icon icon-reply" aria-hidden="true"></span>
+            <span class="configurator-step-kicker">Krok 03</span>
+            <h3>Dostajesz konkretną odpowiedź</h3>
+            <p>Łatwiej przygotować sensowną propozycję bez zgadywania i długich ustaleń.</p>
+          </article>
+        </div>
+        <aside class="configurator-preview" aria-hidden="true">
+          <div class="configurator-preview-top">
+            <span class="configurator-preview-mark"></span>
+            <div>
+              <strong>Zakres projektu</strong>
+              <small>Krok 2 z 6</small>
+            </div>
+            <em>2 min</em>
+          </div>
+          <div class="configurator-preview-body">
+            <div class="preview-progress-row">
+              <span>Postęp konfiguracji</span>
+              <strong>32%</strong>
+            </div>
+            <div class="preview-progress" aria-hidden="true"><span></span></div>
+            <p class="preview-question">Co chcesz przygotować?</p>
+            <div class="preview-choice-list">
+              <div class="preview-choice is-active">
+                <span class="preview-choice-check"></span>
+                <strong>Strona firmowa</strong>
+                <small>najczęstszy wybór</small>
+              </div>
+              <div class="preview-choice">
+                <span class="preview-choice-dot"></span>
+                <strong>Landing page</strong>
+              </div>
+              <div class="preview-choice">
+                <span class="preview-choice-dot"></span>
+                <strong>Oferta PDF</strong>
+              </div>
+            </div>
+            <div class="preview-summary">
+              <span>Dopasowane pytania</span>
+              <strong>tylko potrzebne opcje</strong>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-night deliverables-section">
+    <div class="container">
+      <div class="deliverables-header">
+        <div>
+          <span class="badge">Kompletny rezultat</span>
+          <h2>Co otrzymujesz w ramach projektu?</h2>
+          <p>Najważniejsze elementy, które pomagają stronie wyglądać dobrze, działać wygodnie i prowadzić do kontaktu.</p>
+        </div>
+        <aside class="deliverables-highlight">
+          <strong>Bez przeciążania homepage</strong>
+          <span>Szczegóły zakresu znajdziesz w ofercie i konfiguratorze.</span>
+        </aside>
+      </div>
+      <div class="deliverables-grid stagger-grid">
+        {deliverables.map(([title, text, icon, label, outcome], index) => (
+          <article class:list={['deliverable-card-premium', index < 2 && 'is-featured']}>
+            <div class="deliverable-card-top">
+              <span class:list={['icon-bubble', icon]} aria-hidden="true"><span></span></span>
+              <span class="deliverable-index">0{index + 1}</span>
+            </div>
+            <span class="deliverable-label">{label}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+            <div class="deliverable-outcome">{outcome}</div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section billing-models-section">
+    <div class="container">
+      <div class="billing-models-header">
+        <span class="badge">Modele współpracy</span>
+        <h2>Jednorazowo czy w abonamencie?</h2>
+        <p>Możesz zapłacić za stronę raz i mieć pełną własność projektu albo wybrać abonament z utrzymaniem, drobnymi zmianami i niższym kosztem startowym.</p>
+      </div>
+      <div class="billing-models-grid stagger-grid">
+        <article class="billing-model-card">
+          <div class="billing-model-top">
+            <span class="billing-model-icon billing-model-icon-once" aria-hidden="true"></span>
+            <span class="billing-model-label">pełna własność</span>
+          </div>
+          <h3>Jednorazowo</h3>
+          <p>Dobre, gdy chcesz zapłacić raz i mieć pełną własność strony.</p>
+          <ul class="check-list">
+            <li>Płacisz raz za wykonanie strony</li>
+            <li>Strona jest Twoją własnością</li>
+            <li>Opieka i aktualizacje są opcjonalne</li>
+            <li>Dobry wybór, jeśli nie chcesz stałej miesięcznej opłaty</li>
+          </ul>
+        </article>
+        <article class="billing-model-card">
+          <div class="billing-model-top">
+            <span class="billing-model-icon billing-model-icon-subscription" aria-hidden="true"></span>
+            <span class="billing-model-label">min. 12 miesięcy</span>
+          </div>
+          <h3>Abonament</h3>
+          <p>Dobre, gdy chcesz wystartować z niższym kosztem i mieć utrzymanie strony w cenie.</p>
+          <ul class="check-list">
+            <li>Niższy koszt startowy</li>
+            <li>Hosting i utrzymanie w cenie</li>
+            <li>Drobne zmiany w pakiecie</li>
+            <li>Stałe wsparcie i przewidywalna miesięczna opłata</li>
+            <li>Minimalny okres współpracy: 12 miesięcy</li>
+          </ul>
+        </article>
+      </div>
+      <div class="billing-models-cta">
+        <div>
+          <strong>Nie wiesz, który model wybrać?</strong>
+          <p>W konfiguratorze zaznaczysz swoje potrzeby, a ja podpowiem najrozsądniejszą opcję.</p>
+        </div>
+        <div class="button-row">
+          <a class="button button-primary" href="/cennik">Sprawdź cennik</a>
+          <a class="button button-secondary" href="/konfigurator">Skonfiguruj projekt</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section speed-section">
+    <div class="container speed-panel">
+      <div class="speed-copy">
+        <span class="badge">Szybkość i podstawowe SEO</span>
+        <h2>Strona szybka, czytelna i gotowa pod Google</h2>
+        <p>Dbam o lekki projekt, dobrą wersję mobilną i podstawy SEO, żeby strona była wygodna dla klienta i sensowna dla wyszukiwarki.</p>
+        <div class="speed-tags">
+          <span>lekka strona</span>
+          <span>mobile first</span>
+          <span>podstawowe SEO</span>
+        </div>
+        <div class="speed-actions">
+          <a class="button button-primary" href="https://pagespeed.web.dev/analysis/https-www-dreamwebstudio-pl/gbjly64eoj?form_factor=mobile" target="_blank" rel="noopener noreferrer">Sprawdź wynik mojej strony</a>
+          <a class="button button-secondary" href="https://pagespeed.web.dev/" target="_blank" rel="noreferrer">Sprawdź swoją stronę</a>
+          <p>To tylko szybki test techniczny. Najważniejsze jest to, czy strona jest czytelna i prowadzi do kontaktu.</p>
+        </div>
+      </div>
+      <div class="speed-visual" aria-hidden="true">
+        <div class="speed-score-card">
+          <span class="speed-score-label">Lekki projekt</span>
+          <strong>Szybkość + UX</strong>
+          <div class="speed-ring"><span>UX</span></div>
+          <div class="speed-bars">
+            <span style="--bar: 86%"></span>
+            <span style="--bar: 72%"></span>
+            <span style="--bar: 92%"></span>
+          </div>
+        </div>
+        <div class="speed-benefit-list">
+          <div><strong>Szybciej ładuje</strong><span>mniej czekania na pierwsze wrażenie</span></div>
+          <div><strong>Działa na telefonie</strong><span>czytelny układ i wygodny kontakt</span></div>
+          <div><strong>Ma porządek SEO</strong><span>nagłówki, opisy i logiczna struktura</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-night" id="realizacje"><div class="container"><div class="section-title"><h2>Realizacje</h2><p>Dwa prawdziwe projekty: strona internetowa i dokument PDF.</p></div><ProjectsShowcase compact={true} /><p style="text-align:center;margin-top:30px;"><a class="button button-secondary" href="/realizacje">Zobacz wszystkie realizacje</a></p></div></section>
+
+  <section class="section collaboration-section">
+    <div class="container">
+      <div class="collaboration-header">
+        <span class="badge">Proces bez chaosu</span>
+        <h2>Jak wygląda współpraca?</h2>
+        <p>Prosty proces od pierwszej wiadomości do publikacji. Wiesz, co robimy, kiedy i po co.</p>
+      </div>
+      <div class="timeline timeline-horizontal collaboration-timeline stagger-grid">
+        {homeProcess.map(([title, text], index) => (
+          <article class="timeline-item collaboration-step">
+            <span class="timeline-number">0{index + 1}</span>
+            <div>
+              <span class="collaboration-step-label">{index === 0 ? 'Start' : index === homeProcess.length - 1 ? 'Po publikacji' : 'Etap projektu'}</span>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-night"><div class="container why-split"><div class="why-lead card"><span class="badge">Dlaczego warto?</span><h2>Bez agencyjnego chaosu</h2><p>Pracujesz bezpośrednio ze mną, a zakres projektu ustalamy przed startem. Krótko, konkretnie i z myślą o zapytaniach.</p><a class="button button-primary" href="/dlaczego-ja">Zobacz moje podejście</a></div><div class="why-list stagger-grid">{homeAdvantages.map(([title, text], index) => <article class="why-point"><span class="timeline-number">0{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}</div></div></section>
+
+  <section class="section home-faq" id="faq">
+    <div class="container">
+      <div class="section-title"><span class="badge">FAQ</span><h2>Najczęściej zadawane pytania</h2><p>Krótko i konkretnie: najważniejsze odpowiedzi przed pierwszą rozmową.</p></div>
+      <FAQList />
+      <div class="home-faq-cta">
+        <div>
+          <strong>Masz więcej pytań?</strong>
+          <p>Sprawdź pełne FAQ albo napisz, jeśli nie znalazłeś odpowiedzi.</p>
+        </div>
+        <div class="button-row">
+          <a class="button button-primary" href="/faq">Zobacz wszystkie pytania</a>
+          <a class="button button-secondary" href="/kontakt">Napisz do mnie</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-night final-cta-section">
+    <div class="container">
+      <div class="final-cta-panel">
+        <div class="final-cta-copy">
+          <span class="badge">Zróbmy kolejny krok</span>
+          <h2>Chcesz stronę, która wygląda dobrze i ułatwia zdobywanie zapytań?</h2>
+          <p>Napisz, czego potrzebujesz, albo przejdź przez krótki konfigurator. Pomogę dobrać zakres do Twojej firmy, budżetu i etapu rozwoju.</p>
+          <div class="button-row">
+            <a class="button button-primary" href="/konfigurator">Skonfiguruj projekt</a>
+            <a class="button button-secondary" href="/kontakt">Napisz do mnie</a>
+          </div>
+        </div>
+        <aside class="final-cta-proof">
+          <span>Pierwsza rozmowa i wycena są darmowe.</span>
+          <span>Bez zobowiązań.</span>
+          <span>Odpowiadam konkretnie.</span>
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

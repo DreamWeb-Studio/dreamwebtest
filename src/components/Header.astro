@@ -1,0 +1,157 @@
+---
+import { contactMethods } from '../data/site.js';
+---
+<header class="site-header">
+  <nav class="container nav" aria-label="Główna nawigacja">
+    <a class="logo" href="/" aria-label="DreamWeb Studio - strona główna">
+      <picture>
+        <source srcset="/images/logo-dreamweb-studio-284.avif 1x, /images/logo-dreamweb-studio-568.avif 2x" type="image/avif" />
+        <source srcset="/images/logo-dreamweb-studio-284.webp 1x, /images/logo-dreamweb-studio-568.webp 2x" type="image/webp" />
+        <img src="/images/logo-dreamweb-studio.png" alt="Logo DreamWeb Studio" width="284" height="68" loading="eager" fetchpriority="high" decoding="async" />
+      </picture>
+    </a>
+    <div class="nav-links">
+      <div class="dropdown">
+        <a href="/uslugi">Oferta</a>
+        <div class="dropdown-menu">
+          <a href="/uslugi/strony-internetowe">Strony internetowe</a>
+          <a href="/uslugi/landing-page">Landing page</a>
+          <a href="/uslugi/oferty-pdf">Oferty PDF</a>
+          <a href="/uslugi/wprowadzenie-do-internetu">Start online</a>
+        </div>
+      </div>
+      <a href="/realizacje">Realizacje</a>
+      <a href="/cennik">Cennik</a>
+      <a href="/konfigurator">Konfigurator</a>
+    </div>
+    <div class="nav-actions">
+      <a class="header-contact-button" href="/kontakt">Kontakt</a>
+      <button class="mobile-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Otwórz menu" data-mobile-toggle>
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="container mobile-panel" id="mobile-menu" data-mobile-panel>
+    <div class="mobile-panel-inner">
+      <div class="mobile-panel-head">
+        <a class="mobile-panel-logo" href="/" aria-label="DreamWeb Studio - strona główna">
+          <picture>
+            <source srcset="/images/logo-dreamweb-studio-284.avif 1x, /images/logo-dreamweb-studio-568.avif 2x" type="image/avif" />
+            <source srcset="/images/logo-dreamweb-studio-284.webp 1x, /images/logo-dreamweb-studio-568.webp 2x" type="image/webp" />
+            <img src="/images/logo-dreamweb-studio.png" alt="Logo DreamWeb Studio" width="284" height="68" loading="lazy" decoding="async" />
+          </picture>
+        </a>
+        <a class="mobile-panel-contact" href="/kontakt">Kontakt</a>
+        <button class="mobile-panel-close" type="button" aria-label="Zamknij menu" data-mobile-close>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <a class="mobile-menu-cta" href="/konfigurator">
+        <span class="mobile-menu-cta-kicker">Krótki konfigurator</span>
+        <strong>Skonfiguruj projekt</strong>
+        <small>Odpowiedz na kilka pytań i sprawdź, jaki zakres ma sens.</small>
+      </a>
+
+      <div class="mobile-nav-groups" aria-label="Menu mobilne">
+        <section class="mobile-nav-group">
+          <h2><span class="mobile-nav-icon mobile-nav-icon-offer"></span>Oferta</h2>
+          <a href="/uslugi/strony-internetowe">Strony internetowe</a>
+          <a href="/uslugi/landing-page">Landing page</a>
+          <a href="/uslugi/oferty-pdf">Oferty PDF</a>
+          <a href="/uslugi/wprowadzenie-do-internetu">Start online</a>
+        </section>
+
+        <section class="mobile-nav-group">
+          <h2><span class="mobile-nav-icon mobile-nav-icon-pricing"></span>Cennik</h2>
+          <a href="/cennik#strony">Strony internetowe</a>
+          <a href="/cennik#pdf">Oferty PDF</a>
+          <a href="/cennik#internet">Start online</a>
+          <a href="/cennik#opieka">Opieka / utrzymanie</a>
+        </section>
+
+        <section class="mobile-nav-group">
+          <h2><span class="mobile-nav-icon mobile-nav-icon-process"></span>O współpracy</h2>
+          <a href="/dlaczego-ja">Dlaczego ja</a>
+          <a href="/realizacje">Realizacje</a>
+          <a href="/jak-pracuje">Jak pracuję</a>
+          <a href="/baza-wiedzy">Baza wiedzy</a>
+          <a href="/faq">FAQ</a>
+        </section>
+      </div>
+
+      <div class="mobile-panel-bottom">
+        <a class="mobile-bottom-primary" href="/kontakt">Napisz do mnie</a>
+        <div class="mobile-quick-actions">
+          {contactMethods.map((method) => (
+            <a href={method.href} target={method.external ? '_blank' : undefined} rel={method.external ? 'noopener noreferrer' : undefined}>{method.label}</a>
+          ))}
+        </div>
+        <p>Pierwsza rozmowa i wycena są darmowe.</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    const header = document.querySelector('.site-header');
+    let headerIsScrolled = false;
+    let headerTicking = false;
+    const setHeaderState = () => {
+      headerTicking = false;
+      const nextState = window.scrollY > 48;
+      if (nextState === headerIsScrolled) return;
+      headerIsScrolled = nextState;
+      header?.classList.toggle('is-scrolled', headerIsScrolled);
+    };
+    setHeaderState();
+    window.addEventListener('scroll', () => {
+      if (headerTicking) return;
+      headerTicking = true;
+      requestAnimationFrame(setHeaderState);
+    }, { passive: true });
+    const initMobileMenu = () => {
+      const toggle = document.querySelector('[data-mobile-toggle]');
+      const panel = document.querySelector('[data-mobile-panel]');
+      const close = document.querySelector('[data-mobile-close]');
+      const desktopQuery = window.matchMedia('(min-width: 981px)');
+      let menuIsOpen = false;
+      const setMenuOpen = (open) => {
+        if (open === menuIsOpen) return;
+        menuIsOpen = open;
+        panel?.classList.toggle('is-open', open);
+        header?.classList.toggle('is-menu-open', open);
+        document.documentElement.classList.toggle('menu-lock', open);
+        document.body.classList.toggle('menu-lock', open);
+        toggle?.setAttribute('aria-expanded', String(open));
+        toggle?.setAttribute('aria-label', open ? 'Zamknij menu' : 'Otwórz menu');
+      };
+      toggle?.addEventListener('click', () => {
+        setMenuOpen(!menuIsOpen);
+      });
+      close?.addEventListener('click', () => setMenuOpen(false));
+      panel?.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setMenuOpen(false));
+      });
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') setMenuOpen(false);
+      });
+      desktopQuery.addEventListener('change', (event) => {
+        if (event.matches) setMenuOpen(false);
+      });
+    };
+    const scheduleMobileMenu = () => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(initMobileMenu, { timeout: 1500 });
+      } else {
+        window.setTimeout(initMobileMenu, 120);
+      }
+    };
+    if (document.readyState === 'complete') {
+      scheduleMobileMenu();
+    } else {
+      window.addEventListener('load', scheduleMobileMenu, { once: true });
+    }
+  </script>
+</header>

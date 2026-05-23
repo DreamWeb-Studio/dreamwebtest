@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ServiceCards from '../components/ServiceCards.astro';
+---
+<BaseLayout title="Usługi — strony WWW, PDF i start online | DreamWeb Studio" description="Sprawdź usługi DreamWeb Studio: strony internetowe, landing page’e, oferty PDF, wprowadzenie firmy do internetu i podstawowa optymalizacja SEO.">
+  <PageHero badge="USŁUGI" title="Usługi, które pomagają Twojej firmie zdobywać klientów" text="Pomagam małym firmom uporządkować obecność w internecie: od strony i PDF-a po domenę, hosting i podstawy SEO." />
+  <section class="section section-night"><div class="container"><ServiceCards /></div></section>
+  <section class="section"><div class="container"><div class="card"><h2>Nie wiesz, czego potrzebujesz?</h2><p>Napisz do mnie albo przejdź przez konfigurator — pomogę dobrać najlepsze rozwiązanie do celu i budżetu.</p><div class="button-row"><a class="button button-primary" href="/konfigurator">Skonfiguruj projekt</a><a class="button button-secondary" href="/kontakt">Kontakt</a></div></div></div></section>
+</BaseLayout>

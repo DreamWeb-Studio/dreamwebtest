@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const audiences = ['firmy usługowe', 'firmy budowlane i remontowe', 'lokalne marki', 'specjaliści', 'małe firmy z Gniezna i okolic'];
+const scope = ['strona firmowa', 'landing page', 'oferta PDF', 'formularz zapytania', 'wdrożenie online'];
+---
+
+<BaseLayout
+  title="Strony internetowe Gniezno | DreamWeb Studio"
+  description="Strony internetowe, landing page’e i oferty PDF dla firm z Gniezna i okolic. Nowoczesna strona dla małej firmy, formularz kontaktowy, podstawowe SEO i wdrożenie online."
+  canonical="/strony-internetowe-gniezno/"
+>
+  <PageHero
+    badge="GNIEZNO I CAŁA POLSKA"
+    title="Strony internetowe dla firm z Gniezna i okolic"
+    text="Tworzę nowoczesne strony internetowe, landing page’e i oferty PDF dla firm z Gniezna, Wrześni, Poznania i okolic. Pracuję również zdalnie z klientami z całej Polski."
+    primary="Skonfiguruj projekt"
+    primaryHref="/konfigurator"
+    secondary="Napisz do mnie"
+    secondaryHref="/kontakt"
+  />
+
+  <section class="section section-night">
+    <div class="container">
+      <div class="grid-2 local-page-grid">
+        <article class="card">
+          <span class="badge">Dla kogo?</span>
+          <h2>Małe firmy, które chcą wyglądać lepiej online</h2>
+          <p>Pomagam firmom, które potrzebują czytelnej strony, lepszej prezentacji oferty i prostszej drogi do kontaktu.</p>
+          <ul class="check-list">
+            {audiences.map((item) => <li>{item}</li>)}
+          </ul>
+        </article>
+
+        <article class="card">
+          <span class="badge">Zakres</span>
+          <h2>Co mogę przygotować?</h2>
+          <p>Zakres dobieram do celu: czasem wystarczy landing page, czasem lepsza będzie pełna strona firmowa albo oferta PDF.</p>
+          <ul class="check-list">
+            {scope.map((item) => <li>{item}</li>)}
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2 local-page-grid">
+      <article class="card">
+        <span class="badge">Dlaczego lokalnie?</span>
+        <h2>Łatwiej zacząć rozmowę i doprecyzować zakres</h2>
+        <p>Jeśli działasz w Gnieźnie lub okolicy, możemy szybciej omówić projekt, potrzeby firmy i materiały. Nadal pracujemy prosto: bez agencyjnego chaosu, z jasnym zakresem i konkretną wyceną przed startem.</p>
+      </article>
+
+      <article class="card">
+        <span class="badge">Nie jesteś z Gniezna?</span>
+        <h2>To żaden problem</h2>
+        <p>Nie musisz być z Gniezna — większość projektów realizuję zdalnie, dlatego mogę przygotować stronę dla firmy z dowolnego miejsca w Polsce.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section-night">
+    <div class="container">
+      <div class="card local-cta-card">
+        <span class="badge">Następny krok</span>
+        <h2>Chcesz stronę dla firmy z Gniezna lub okolic?</h2>
+        <p>Przejdź przez krótki konfigurator albo napisz bezpośrednio. Pomogę dobrać zakres do Twojej firmy, budżetu i etapu rozwoju.</p>
+        <div class="button-row">
+          <a class="button button-primary" href="/konfigurator">Skonfiguruj projekt</a>
+          <a class="button button-secondary" href="/kontakt">Napisz do mnie</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
