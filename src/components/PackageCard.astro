@@ -6,7 +6,7 @@ const { plan } = Astro.props;
   <h3 style="margin-top: 16px;">{plan.title}</h3>
   <p class="price gradient-text">{plan.price}</p>
   <p>{plan.forWhom}</p>
-  <h4>Zawiera</h4>
+  <h4>{plan.intro || 'Zawiera'}</h4>
   <ul class="check-list">
     {plan.included.map((item) => <li>{item}</li>)}
   </ul>

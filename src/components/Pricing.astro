@@ -28,6 +28,11 @@ import PackageCard from './PackageCard.astro';
               <div class:list={[group.packages.length > 3 ? 'grid-4' : 'grid-3', 'stagger-grid']}>
                 {group.packages.map((plan) => <PackageCard plan={plan} />)}
               </div>
+              {group.notes && (
+                <div class="pricing-group-notes card">
+                  {group.notes.map((note) => <p>{note}</p>)}
+                </div>
+              )}
             </div>
           ))}
         </div>
