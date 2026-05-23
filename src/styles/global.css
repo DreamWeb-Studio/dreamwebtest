@@ -886,6 +886,16 @@ p {
 .pricing-panel .grid-4,
 .pricing-panel .grid-3 {
   align-items: stretch;
+  overflow: visible;
+}
+
+.pricing-panel .pricing-card {
+  overflow: visible;
+  min-height: auto;
+}
+
+.pricing-card .button {
+  width: 100%;
 }
 
 .pricing-card.featured {
@@ -1917,6 +1927,11 @@ p {
     font-size: 0.86rem;
   }
 
+  .service-audience-grid,
+  .service-process-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .grid-4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1943,7 +1958,10 @@ p {
 
   .hero-grid,
   .project-card,
-  .configurator {
+  .configurator,
+  .service-scope-layout,
+  .service-choice-layout,
+  .service-final-cta {
     grid-template-columns: 1fr;
   }
 
@@ -2008,8 +2026,25 @@ p {
   .grid-4,
   .option-grid,
   .form-grid,
-  .mini-grid {
+  .mini-grid,
+  .service-audience-grid,
+  .service-process-grid,
+  .service-scope-list {
     grid-template-columns: 1fr;
+  }
+
+  .service-detail-section {
+    padding-top: 58px;
+    padding-bottom: 60px;
+  }
+
+  .service-detail-card,
+  .service-process-step,
+  .service-scope-card,
+  .service-when-card,
+  .service-price-card,
+  .service-final-cta {
+    border-radius: 22px;
   }
 
   .hero-visual {
@@ -2336,6 +2371,209 @@ p {
   margin-bottom: 0;
 }
 
+.service-detail-section {
+  padding-top: clamp(66px, 7vw, 96px);
+  padding-bottom: clamp(66px, 7vw, 96px);
+}
+
+.service-section-title {
+  margin-bottom: 34px;
+}
+
+.service-audience-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.service-detail-card {
+  gap: 10px;
+  border-radius: 24px;
+  padding: 22px;
+}
+
+.service-detail-card h3 {
+  font-size: 1.12rem;
+}
+
+.service-detail-card p {
+  margin: 0;
+  font-size: 0.96rem;
+}
+
+.service-scope-layout,
+.service-choice-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+  align-items: center;
+  gap: clamp(24px, 5vw, 58px);
+}
+
+.service-scope-copy h2,
+.service-process-head h2,
+.service-when-card h2,
+.service-final-cta h2 {
+  margin-top: 16px;
+}
+
+.service-scope-copy p {
+  max-width: 620px;
+}
+
+.service-scope-card {
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(255, 0, 212, 0.18), transparent 24rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+}
+
+.service-scope-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 16px;
+}
+
+.service-scope-list li {
+  margin-top: 0;
+}
+
+.service-process-head {
+  max-width: 760px;
+  margin-bottom: 28px;
+}
+
+.service-process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.service-process-step {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  min-height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.028)),
+    rgba(9, 6, 17, 0.72);
+  padding: 20px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), var(--shadow);
+}
+
+.service-process-step h3 {
+  font-size: 1.12rem;
+}
+
+.service-process-step p {
+  margin: 0;
+  font-size: 0.94rem;
+}
+
+.service-choice-layout {
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.62fr);
+}
+
+.service-when-card,
+.service-price-card {
+  border-radius: 30px;
+}
+
+.service-price-card {
+  align-items: flex-start;
+  gap: 14px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(77, 182, 255, 0.14), transparent 20rem),
+    linear-gradient(145deg, rgba(255, 0, 212, 0.11), rgba(139, 77, 255, 0.08), rgba(255, 255, 255, 0.04));
+}
+
+.service-price-card > span {
+  color: #ffd8f8;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.service-price-card strong {
+  font-family: var(--font-heading);
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
+}
+
+.service-price-card p {
+  margin: 0;
+}
+
+.service-price-card .button {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.service-faq-grid {
+  display: grid;
+  gap: 12px;
+  width: min(920px, 100%);
+  margin-inline: auto;
+}
+
+.service-final-section {
+  padding-top: clamp(60px, 7vw, 90px);
+}
+
+.service-final-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(255, 0, 212, 0.18), transparent 28rem),
+    radial-gradient(circle at 92% 20%, rgba(77, 182, 255, 0.12), transparent 24rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+}
+
+.service-final-cta p {
+  max-width: 760px;
+}
+
+@media (max-width: 1100px) {
+  .service-audience-grid,
+  .service-process-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 980px) {
+  .service-scope-layout,
+  .service-choice-layout,
+  .service-final-cta {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .service-audience-grid,
+  .service-process-grid,
+  .service-scope-list {
+    grid-template-columns: 1fr;
+  }
+
+  .service-detail-section {
+    padding-top: 58px;
+    padding-bottom: 60px;
+  }
+
+  .service-detail-card,
+  .service-process-step,
+  .service-scope-card,
+  .service-when-card,
+  .service-price-card,
+  .service-final-cta {
+    border-radius: 22px;
+  }
+}
+
 .deliverable-card {
   gap: 8px;
 }
@@ -2473,7 +2711,7 @@ p {
 
 .pricing-groups {
   display: grid;
-  gap: 46px;
+  gap: clamp(34px, 4vw, 44px);
 }
 
 .pricing-group > h3 {
@@ -2485,18 +2723,26 @@ p {
 }
 
 .pricing-group-notes {
-  gap: 8px;
-  margin-top: 18px;
-  border-radius: 24px;
-  padding: 18px 20px;
+  display: grid;
+  gap: 6px;
+  margin-top: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(255, 0, 212, 0.075), rgba(77, 182, 255, 0.045)),
+    rgba(255, 255, 255, 0.035);
+  padding: 12px 14px;
 }
 
 .pricing-group-notes p {
   margin: 0;
+  color: #d6ccde;
+  font-size: 0.92rem;
+  line-height: 1.55;
 }
 
 .pricing-group-notes p + p {
-  margin-top: 8px;
+  margin-top: 0;
 }
 
 .budget-grid {

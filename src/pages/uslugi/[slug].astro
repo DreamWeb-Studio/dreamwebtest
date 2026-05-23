@@ -10,20 +10,107 @@ export function getStaticPaths() {
 const service = serviceDetails[Astro.params.slug];
 ---
 <BaseLayout title={`${service.title} | DreamWeb Studio`} description={service.description}>
-  <PageHero badge={service.badge} title={service.title} text={service.description} primary="Wyceń mój projekt" primaryHref="/konfigurator" secondary="Kontakt" secondaryHref="/kontakt" />
-  <section class="section section-night">
+  <PageHero badge={service.badge} title={service.title} text={service.description} primary="Wyceń mój projekt" primaryHref="/konfigurator" secondary={service.secondaryCta || 'Skontaktuj się'} secondaryHref={service.secondaryHref || '/kontakt'} />
+
+  <section class="section section-night service-detail-section">
     <div class="container">
-      <div class="grid-3">
-        {service.sections.map(([title, items]) => (
-          <article class="card">
-            <h2>{title}</h2>
-            <ul class="check-list">
-              {items.map((item) => <li>{item}</li>)}
-            </ul>
+      <div class="section-title service-section-title">
+        <span class="badge">Dla kogo?</span>
+        <h2>Kiedy ta usługa ma największy sens?</h2>
+        <p>Nie każda firma potrzebuje tego samego zakresu. Poniżej znajdziesz sytuacje, w których ta usługa zwykle sprawdza się najlepiej.</p>
+      </div>
+      <div class="service-audience-grid stagger-grid">
+        {service.audience.map(([title, text]) => (
+          <article class="card service-detail-card">
+            <h3>{title}</h3>
+            <p>{text}</p>
           </article>
         ))}
       </div>
     </div>
   </section>
-  <section class="section"><div class="container"><div class="card"><h2>Gotowy na kolejny krok?</h2><p>Pierwsza rozmowa i wycena są darmowe. Opowiedz krótko, czego potrzebujesz, a wrócę z konkretną propozycją.</p><a class="button button-primary" href="/konfigurator">Skonfiguruj projekt</a></div></div></section>
+
+  <section class="section service-detail-section">
+    <div class="container">
+      <div class="service-scope-layout">
+        <div class="service-scope-copy">
+          <span class="badge">Co otrzymujesz?</span>
+          <h2>Konkretny zakres bez nadmiaru</h2>
+          <p>Zakres dobieram tak, żeby projekt pomagał w komunikacji i kontakcie z klientem, a nie był tylko kolejną listą elementów do odhaczenia.</p>
+        </div>
+        <article class="card service-scope-card">
+          <ul class="check-list service-scope-list">
+            {service.scope.map((item) => <li>{item}</li>)}
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-night service-detail-section">
+    <div class="container">
+      <div class="service-process-head">
+        <span class="badge">Proces</span>
+        <h2>Jak wygląda współpraca?</h2>
+      </div>
+      <div class="service-process-grid stagger-grid">
+        {service.process.map(([title, text], index) => (
+          <article class="service-process-step">
+            <span class="timeline-number">0{index + 1}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section service-detail-section">
+    <div class="container service-choice-layout">
+      <article class="card service-when-card">
+        <span class="badge">Kiedy wybrać?</span>
+        <h2>{service.title}</h2>
+        <p>{service.when}</p>
+      </article>
+      <aside class="card service-price-card">
+        <span>Cena startowa</span>
+        <strong>{service.price}</strong>
+        <p>Finalna wycena zależy od zakresu, materiałów i terminu.</p>
+        <a class="button button-primary" href={service.priceHref}>Zobacz pełny cennik</a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section-night service-detail-section">
+    <div class="container">
+      <div class="section-title service-section-title">
+        <span class="badge">Mini FAQ</span>
+        <h2>Najczęstsze pytania o tę usługę</h2>
+      </div>
+      <div class="service-faq-grid">
+        {service.faq.map(([question, answer], index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section service-final-section">
+    <div class="container">
+      <div class="card service-final-cta">
+        <div>
+          <span class="badge">Następny krok</span>
+          <h2>{service.finalTitle}</h2>
+          <p>{service.finalText}</p>
+        </div>
+        <div class="button-row">
+          <a class="button button-primary" href="/konfigurator">Wyceń mój projekt</a>
+          <a class="button button-secondary" href="/kontakt">Skontaktuj się</a>
+        </div>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

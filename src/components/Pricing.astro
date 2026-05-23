@@ -29,7 +29,7 @@ import PackageCard from './PackageCard.astro';
                 {group.packages.map((plan) => <PackageCard plan={plan} />)}
               </div>
               {group.notes && (
-                <div class="pricing-group-notes card">
+                <div class="pricing-group-notes">
                   {group.notes.map((note) => <p>{note}</p>)}
                 </div>
               )}

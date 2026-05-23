@@ -24,6 +24,10 @@ const imageUrl = new URL(ogImage, siteUrl).toString();
 const isHomePage = normalizePath(Astro.url.pathname) === '/';
 const animatedSubpagePaths = new Set([
   '/uslugi/',
+  '/uslugi/strony-internetowe/',
+  '/uslugi/landing-page/',
+  '/uslugi/oferty-pdf/',
+  '/uslugi/wprowadzenie-do-internetu/',
   '/cennik/',
   '/konfigurator/',
   '/realizacje/',
@@ -159,6 +163,7 @@ const jsonLd = {
             '.process-step',
             '.why-point',
             '.contact-card',
+            '.service-process-step',
             '.pricing-intro',
             '.approach-panel',
             '.cta-card',
