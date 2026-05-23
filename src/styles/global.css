@@ -789,6 +789,19 @@ p {
   gap: 34px;
 }
 
+.project-card.project-featured {
+  border-color: rgba(255, 190, 83, 0.22);
+  background:
+    radial-gradient(circle at 78% 18%, rgba(255, 184, 77, 0.18), transparent 34%),
+    radial-gradient(circle at 12% 78%, rgba(255, 0, 212, 0.1), transparent 32%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.028));
+}
+
+.project-card.project-featured .desktop-mockup,
+.project-card.project-featured .mobile-mockup {
+  box-shadow: 0 0 34px rgba(255, 184, 77, 0.18), var(--shadow);
+}
+
 .project-media {
   position: relative;
   min-height: 360px;

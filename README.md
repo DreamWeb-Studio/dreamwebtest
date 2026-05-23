@@ -24,13 +24,6 @@ npm run build
 npm run preview
 ```
 
-## Vercel
-
-- Framework Preset: Astro
-- Install Command: `npm install`
-- Build Command: `npm run build`
-- Output Directory: `dist`
-
 ## Zakres migracji
 
 Statyczne strony Astro:
@@ -39,7 +32,7 @@ Statyczne strony Astro:
 - `/uslugi`
 - `/uslugi/strony-internetowe`
 - `/uslugi/oferty-pdf`
-- `/uslugi/wprowadzenie-do-internetu`
+- `/uslugi/start-online`
 - `/cennik`
 - `/konfigurator`
 - `/realizacje`

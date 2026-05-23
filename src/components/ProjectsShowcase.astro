@@ -1,10 +1,11 @@
 ---
 import { projects } from '../data/site.js';
 const { compact = false } = Astro.props;
+const visibleProjects = compact ? projects.filter((project) => project.homepage !== false) : projects;
 ---
 <div style="display: grid; gap: 32px;">
-  {projects.map((project) => (
-    <article class="card project-card">
+  {visibleProjects.map((project) => (
+    <article class:list={['card', 'project-card', project.featured && 'project-featured']}>
       <div>
         <span class="badge">{project.category}</span>
         <h3 style="margin-top: 18px; font-size: 2rem;">{project.title}</h3>
@@ -37,13 +38,13 @@ const { compact = false } = Astro.props;
               <img src={project.desktop} alt={project.alt} width="1280" height="582" loading={compact ? 'lazy' : 'eager'} />
             </div>
             <div class="mobile-mockup">
-              <img src={project.mobile} alt="Mobilny widok strony Aluraf-Tarasy" width="720" height="1287" loading="lazy" />
+              <img src={project.mobile} alt={project.mobileAlt || `Mobilny widok realizacji ${project.title}`} width="720" height="1287" loading="lazy" />
             </div>
           </>
         ) : (
           <div class="pdf-stack">
             {project.pages.map((page, index) => (
-              <img src={page} alt={`Mockup dokumentu PDF Strefa Komfortu - strona ${index + 1}`} width="521" height="751" loading="lazy" />
+              <img src={page} alt={`Mockup dokumentu PDF ${project.title} - strona ${index + 1}`} width="521" height="751" loading="lazy" />
             ))}
           </div>
         )}

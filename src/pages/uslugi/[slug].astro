@@ -10,7 +10,7 @@ export function getStaticPaths() {
 const service = serviceDetails[Astro.params.slug];
 ---
 <BaseLayout title={`${service.title} | DreamWeb Studio`} description={service.description}>
-  <PageHero badge={service.badge} title={service.title} text={service.description} primary="Wyceń mój projekt" primaryHref="/konfigurator" secondary={service.secondaryCta || 'Skontaktuj się'} secondaryHref={service.secondaryHref || '/kontakt'} />
+  <PageHero badge={service.badge} title={service.title} text={service.description} primary={service.primaryCta || 'Wyceń mój projekt'} primaryHref="/konfigurator" secondary={service.secondaryCta || 'Skontaktuj się'} secondaryHref={service.secondaryHref || '/kontakt'} />
 
   <section class="section section-night service-detail-section">
     <div class="container">
@@ -107,7 +107,7 @@ const service = serviceDetails[Astro.params.slug];
           <p>{service.finalText}</p>
         </div>
         <div class="button-row">
-          <a class="button button-primary" href="/konfigurator">Wyceń mój projekt</a>
+          <a class="button button-primary" href="/konfigurator">{service.finalCta || 'Wyceń mój projekt'}</a>
           <a class="button button-secondary" href="/kontakt">Skontaktuj się</a>
         </div>
       </div>

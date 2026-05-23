@@ -37,9 +37,16 @@ import PackageCard from './PackageCard.astro';
           ))}
         </div>
       ) : (
-        <div class="grid-4 stagger-grid">
-          {content.packages.map((plan) => <PackageCard plan={plan} />)}
-        </div>
+        <>
+          <div class="grid-4 stagger-grid">
+            {content.packages.map((plan) => <PackageCard plan={plan} />)}
+          </div>
+          {content.notes && (
+            <div class="pricing-group-notes">
+              {content.notes.map((note) => <p>{note}</p>)}
+            </div>
+          )}
+        </>
       )}
     </section>
   );
