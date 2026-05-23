@@ -1,7 +1,24 @@
 ---
 import { pricingContent, pricingTabs } from '../data/pricing.js';
 import PackageCard from './PackageCard.astro';
+
+const pricingShortcuts = [
+  ['Potrzebuję strony', 'od 999 zł netto', 'Dla firm, które chcą mieć własną stronę lub landing page.', '#strony'],
+  ['Potrzebuję oferty PDF', 'od 299 zł netto', 'Dla firm, które wysyłają wyceny, prezentacje usług lub pakiety.', '#pdf'],
+  ['Chcę wystartować online', 'od 299 zł netto', 'Dla firm, które chcą uporządkować wizytówkę Google, social media i podstawową obecność w internecie.', '#internet'],
+  ['Chcę opiekę po wdrożeniu', 'od 99 zł / mies.', 'Dla firm, które chcą mieć wsparcie po uruchomieniu strony.', '#opieka'],
+];
 ---
+<section class="pricing-shortcuts" aria-label="Szybki wybór usługi">
+  {pricingShortcuts.map(([title, price, text, href]) => (
+    <a class="pricing-shortcut-card" href={href}>
+      <span>{title}</span>
+      <strong>{price}</strong>
+      <p>{text}</p>
+    </a>
+  ))}
+</section>
+
 <div class="tabs pricing-tabs" role="tablist" aria-label="Kategorie cennika">
   {pricingTabs.map((tab, index) => (
     <button class:list={['tab-button', index === 0 && 'is-active']} type="button" data-pricing-tab={tab.id}>{tab.label}</button>

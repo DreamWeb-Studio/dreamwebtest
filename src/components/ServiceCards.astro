@@ -12,7 +12,11 @@ const iconClasses = ['icon-browser', 'icon-layout', 'icon-document', 'icon-globe
       </span>
       <h3 style="margin-top: 22px;">{service.title}</h3>
       <p>{service.description}</p>
-      {!compact && (
+      {compact ? (
+        <div class="service-card-tags">
+          {service.points.slice(0, 3).map((point) => <span>{point}</span>)}
+        </div>
+      ) : (
         <ul class="check-list">
           {service.points.map((point) => <li>{point}</li>)}
         </ul>

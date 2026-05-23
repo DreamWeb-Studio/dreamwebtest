@@ -5,12 +5,17 @@ const visibleProjects = compact ? projects.filter((project) => project.homepage 
 ---
 <div style="display: grid; gap: 32px;">
   {visibleProjects.map((project) => (
-    <article class:list={['card', 'project-card', project.featured && 'project-featured']}>
+    <article class:list={['card', 'project-card', compact && 'project-card-compact', project.featured && 'project-featured']}>
       <div>
         <span class="badge">{project.category}</span>
         <h3 style="margin-top: 18px; font-size: 2rem;">{project.title}</h3>
+        {compact && project.industry && <span class="project-industry">{project.industry}</span>}
         <p>{project.description}</p>
-        {project.benefits && (
+        {compact && project.homepageTags ? (
+          <div class="project-tag-list">
+            {project.homepageTags.map((item) => <span>{item}</span>)}
+          </div>
+        ) : project.benefits && (
           <ul class="check-list project-benefits">
             {project.benefits.map((item) => <li>{item}</li>)}
           </ul>
