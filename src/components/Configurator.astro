@@ -1,4 +1,6 @@
 ---
+import LiveWebsitePreview from './configurator/LiveWebsitePreview.astro';
+
 const { home = false } = Astro.props;
 
 const projectTypes = [
@@ -45,9 +47,12 @@ const projectTypes = [
     </div>
   </section>
   <aside class="contact-card summary-panel">
-    <span class="badge">Twoja konfiguracja</span>
-    <div data-summary style="margin-top: 18px;">
+    <LiveWebsitePreview />
+    <div class="config-summary">
+      <span class="badge">Twoja konfiguracja</span>
+      <div data-summary>
       <p>Wybierz kilka opcji, a tutaj zobaczysz podsumowanie projektu.</p>
+      </div>
     </div>
   </aside>
 </div>
@@ -74,6 +79,13 @@ const projectTypes = [
     const stepButtons = root.querySelectorAll('[data-step-jump]');
     const progressBar = root.querySelector('[data-progress-bar]');
     const progressLabel = root.querySelector('[data-progress-label]');
+    const previewFrame = root.querySelector('[data-preview-frame]');
+    const previewTitle = root.querySelector('[data-preview-title]');
+    const previewStatus = root.querySelector('[data-preview-status]');
+    const previewAddress = root.querySelector('[data-preview-address]');
+    const previewSections = root.querySelector('[data-preview-sections]');
+    const previewPages = root.querySelector('[data-preview-pages]');
+    const previewFeatures = root.querySelector('[data-preview-features]');
     let isSending = false;
     const state = {
       step: 0,
@@ -102,6 +114,158 @@ const projectTypes = [
       pdf: ['Okładka', 'Krótki opis firmy', 'Zakres oferty', 'Warianty / pakiety', 'Cennik / wycena', 'Harmonogram prac', 'Warunki współpracy', 'Zdjęcia / wizualizacje', 'FAQ w PDF', 'Dane kontaktowe', 'CTA końcowe', 'Nie wiem — doradź mi'],
       internet: ['Audyt obecności online', 'Wizytówka Google', 'Profile społecznościowe', 'Opis firmy i usług', 'Dane kontaktowe i linki', 'Plan publikacji na start', 'Wskazówki co publikować', 'Rekomendacja dalszych działań', 'Nie wiem — doradź mi'],
       unsure: ['Nie mam jeszcze żadnej strony', 'Mam stronę, ale wygląda słabo', 'Mam stronę, ale nie dostaję zapytań', 'Potrzebuję lepszej oferty PDF', 'Chcę zacząć działać w internecie', 'Nie wiem, od czego zacząć'],
+    };
+    const previewBlocks = {
+      cover: ['Okładka', 'preview-wire-cover', '<i></i><strong>OFERTA</strong><i></i>'],
+      hero: ['Hero', 'preview-wire-hero', '<i></i><i></i><b></b>'],
+      problem: ['Problem i rozwiązanie', 'preview-wire-split', '<div><i></i><i></i></div><div><i></i><b></b></div>'],
+      about: ['O firmie', 'preview-wire-about', '<b></b><div><i></i><i></i><i></i></div>'],
+      benefits: ['Korzyści', 'preview-wire-benefits', '<div><b></b><b></b><b></b></div>'],
+      offer: ['Oferta', 'preview-wire-offer', '<div><i></i><i></i><i></i></div>'],
+      portfolio: ['Realizacje', 'preview-wire-gallery', '<div><b></b><b></b><b></b></div>'],
+      gallery: ['Galeria zdjęć', 'preview-wire-gallery', '<div><b></b><b></b><b></b></div>'],
+      testimonials: ['Opinie klientów', 'preview-wire-testimonials', '<div><i></i><i></i></div>'],
+      stats: ['Liczby i efekty', 'preview-wire-stats', '<div><strong>12+</strong><strong>98%</strong><strong>24h</strong></div>'],
+      pricing: ['Cennik i pakiety', 'preview-wire-pricing', '<div><b></b><b></b><b></b></div>'],
+      process: ['Proces i harmonogram', 'preview-wire-process', '<div><i></i><i></i><i></i><i></i></div>'],
+      terms: ['Warunki współpracy', 'preview-wire-text', '<i></i><i></i><i></i>'],
+      faq: ['FAQ', 'preview-wire-faq', '<i></i><i></i><i></i>'],
+      blog: ['Blog / baza wiedzy', 'preview-wire-blog', '<div><b></b><b></b><b></b></div>'],
+      map: ['Google / mapa', 'preview-wire-map', '<div><i></i><b></b><i></i></div>'],
+      social: ['Social media', 'preview-wire-social', '<div><b></b><b></b><b></b></div>'],
+      audit: ['Audyt obecności', 'preview-wire-checklist', '<i></i><i></i><i></i>'],
+      plan: ['Plan działania', 'preview-wire-checklist', '<i></i><i></i><i></i>'],
+      quickContact: ['Szybki kontakt', 'preview-wire-quick-contact', '<b></b><b></b>'],
+      contact: ['Kontakt', 'preview-wire-contact', '<i></i><b></b>'],
+      cta: ['Końcowe CTA', 'preview-wire-cta', '<i></i><b></b>'],
+    };
+    const previewSectionOrder = [
+      'cover',
+      'hero',
+      'problem',
+      'about',
+      'benefits',
+      'offer',
+      'portfolio',
+      'gallery',
+      'testimonials',
+      'stats',
+      'pricing',
+      'process',
+      'terms',
+      'faq',
+      'blog',
+      'map',
+      'social',
+      'audit',
+      'plan',
+      'quickContact',
+      'contact',
+      'cta',
+    ];
+    const previewOptionMap = [
+      [['okladka'], 'cover'],
+      [['mocna sekcja hero', 'hero'], 'hero'],
+      [['problem'], 'problem'],
+      [['o firmie', 'opis firmy', 'krotki opis firmy'], 'about'],
+      [['korzysci'], 'benefits'],
+      [['realizacje', 'portfolio'], 'portfolio'],
+      [['galeria', 'zdjecia / wizualizacje'], 'gallery'],
+      [['opinie', 'dowody zaufania'], 'testimonials'],
+      [['liczby', 'efekty'], 'stats'],
+      [['cennik', 'wycena', 'warianty / pakiety'], 'pricing'],
+      [['harmonogram'], 'process'],
+      [['warunki wspolpracy'], 'terms'],
+      [['faq'], 'faq'],
+      [['blog', 'poradnik'], 'blog'],
+      [['mapa google', 'wizytowka google'], 'map'],
+      [['profile spolecznosciowe', 'social media'], 'social'],
+      [['audyt obecnosci'], 'audit'],
+      [['plan publikacji', 'wskazowki co publikowac', 'rekomendacja dalszych dzialan'], 'plan'],
+      [['whatsapp', 'telefon', 'cta / przyciski'], 'quickContact'],
+      [['formularz kontaktowy', 'dane kontaktowe', 'kontaktowe i linki'], 'contact'],
+      [['cta koncowe'], 'cta'],
+      [['oferta', 'zakres oferty'], 'offer'],
+    ];
+    const normalizePreviewText = (value) => String(value || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[–—]/g, '-');
+    const getPreviewKey = (option) => {
+      const normalized = normalizePreviewText(option);
+      if (normalized.includes('animacje')) return '';
+      return previewOptionMap.find(([needles]) => needles.some((needle) => normalized.includes(needle)))?.[1] || '';
+    };
+    const getPreviewLayout = () => {
+      const type = state.projectType || 'website';
+      const mode = type === 'pdf' ? 'pdf' : type === 'internet' ? 'online' : type === 'landing' ? 'landing' : 'website';
+      const baseSections = {
+        website: ['hero', 'offer', 'contact'],
+        landing: ['hero', 'benefits', 'contact', 'cta'],
+        pdf: ['cover', 'offer', 'contact'],
+        online: ['about', 'plan'],
+      };
+      const selectedKeys = state.scope.map(getPreviewKey).filter(Boolean);
+      const sectionSet = new Set([...(baseSections[mode] || baseSections.website), ...selectedKeys]);
+      const sections = previewSectionOrder.filter((key) => sectionSet.has(key));
+      const pageLabels = {
+        about: 'O firmie',
+        offer: 'Oferta',
+        portfolio: 'Realizacje',
+        pricing: 'Cennik',
+        blog: 'Baza wiedzy',
+        faq: 'FAQ',
+        contact: 'Kontakt',
+      };
+      const pages = mode === 'website'
+        ? ['Strona główna', ...sections.filter((key) => pageLabels[key] && key !== 'contact').map((key) => pageLabels[key]), 'Kontakt']
+        : mode === 'landing'
+          ? ['Landing page']
+          : mode === 'pdf'
+            ? ['Dokument PDF']
+            : ['Profil firmy', 'Plan działania'];
+      const features = state.scope.filter((option) => {
+        const normalized = normalizePreviewText(option);
+        return normalized.includes('animacje') || normalized.includes('analityka');
+      });
+      if (state.budget) features.push(`Budżet: ${state.budget}`);
+      if (state.timeline) features.push(`Termin: ${state.timeline}`);
+      return {
+        mode,
+        title: labels[state.projectType] || 'Strona internetowa',
+        sections,
+        sectionLabels: sections.map((key) => previewBlocks[key][0]),
+        pages: [...new Set(pages)],
+        features,
+      };
+    };
+    const updateLivePreview = () => {
+      if (!previewFrame || !previewSections) return;
+      const layout = getPreviewLayout();
+      previewFrame.dataset.previewMode = layout.mode;
+      if (previewTitle) previewTitle.textContent = layout.title;
+      if (previewStatus) previewStatus.textContent = `${layout.sections.length} bloków`;
+      if (previewAddress) {
+        previewAddress.textContent = layout.mode === 'pdf'
+          ? 'oferta-firmy.pdf'
+          : layout.mode === 'online'
+            ? 'profil firmy'
+            : layout.mode === 'landing'
+              ? 'twojaoferta.pl'
+              : 'twojafirma.pl';
+      }
+      if (previewPages) {
+        previewPages.innerHTML = layout.pages.map((page) => `<span>${page}</span>`).join('');
+      }
+      previewSections.innerHTML = layout.sections.map((key) => {
+        const [label, className, body] = previewBlocks[key];
+        return `<div class="preview-wire-block ${className}" data-preview-block="${key}"><span>${label}</span>${body}</div>`;
+      }).join('');
+      if (previewFeatures) {
+        previewFeatures.hidden = layout.features.length === 0;
+        previewFeatures.innerHTML = layout.features.map((feature) => `<span>${feature}</span>`).join('');
+      }
     };
     const stages = {
       pdf: ['Mam już treść oferty', 'Mam tylko luźne informacje', 'Mam cennik, ale chcę lepszą prezentację', 'Chcę stworzyć dokument od zera', 'Nie wiem, jak to ułożyć'],
@@ -252,6 +416,7 @@ const projectTypes = [
     const buildConfigurationPayload = () => {
       const materialSummary = getMaterialSummary();
       const commercial = getSummaryCommercial();
+      const previewLayout = getPreviewLayout();
       return {
         source: 'configurator',
         companyWebsite: state.contact.companyWebsite || '',
@@ -272,6 +437,9 @@ const projectTypes = [
           'Model współpracy': commercial.model,
           'Pakiet abonamentowy': commercial.package || 'Nie dotyczy',
           'Termin': state.timeline || 'Nie podano',
+          'Wstępny układ': previewLayout.sectionLabels,
+          'Widoki / podstrony': previewLayout.pages,
+          'Dodatkowe funkcje szkicu': previewLayout.features,
         },
       };
     };
@@ -381,16 +549,20 @@ const projectTypes = [
     const updateSummary = () => {
       const materialSummary = getMaterialSummary();
       const commercial = getSummaryCommercial();
+      const previewLayout = getPreviewLayout();
       summary.innerHTML = `
         <p><strong>Typ:</strong> ${labels[state.projectType] || 'Jeszcze nie wybrano'}</p>
         <p><strong>Zakres:</strong> ${state.scope.join(', ') || 'Jeszcze nie wybrano'}</p>
+        <p><strong>Wstępny układ:</strong> ${previewLayout.sectionLabels.join(', ')}</p>
         <p><strong>Etap:</strong> ${state.stage || 'Jeszcze nie wybrano'}</p>
         <p><strong>Materiały:</strong> ${materialSummary.join(' / ') || 'Nie podano'}</p>
         <p><strong>Budżet:</strong> ${commercial.budget}</p>
         <p><strong>Model:</strong> ${commercial.model}</p>
         ${commercial.package ? `<p><strong>Pakiet abonamentowy:</strong> ${commercial.package}</p>` : ''}
         <p><strong>Termin:</strong> ${state.timeline || 'Nie podano'}</p>
+        <small class="config-summary-note">To wstępny szkic zakresu. Finalny układ dopracujemy po rozmowie.</small>
       `;
+      updateLivePreview();
     };
     const updateSteps = () => {
       const progress = Math.round(((state.step + 1) / 6) * 100);
