@@ -152,7 +152,8 @@ const jsonLd = {
 
       const initReveal = () => {
         const isSubpage = document.body.classList.contains('has-subpage-reveal');
-        const baseRevealTargets = Array.from(document.querySelectorAll('.section'));
+        const baseRevealTargets = Array.from(document.querySelectorAll('.section'))
+          .filter((target) => !target.closest('.no-reveal'));
         const subpageRevealTargets = isSubpage
           ? Array.from(document.querySelectorAll([
             '.stagger-grid > *',
@@ -169,7 +170,7 @@ const jsonLd = {
             '.cta-card',
             '.tabs',
             '.faq-search',
-          ].join(','))).filter((target) => !target.closest('[hidden]'))
+          ].join(','))).filter((target) => !target.closest('[hidden]') && !target.closest('.no-reveal'))
           : [];
         const revealTargets = Array.from(new Set([...baseRevealTargets, ...subpageRevealTargets]));
         revealTargets.forEach((target) => {

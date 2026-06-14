@@ -21,14 +21,31 @@ const pricingShortcuts = [
 
 <div class="tabs pricing-tabs" role="tablist" aria-label="Kategorie cennika">
   {pricingTabs.map((tab, index) => (
-    <button class:list={['tab-button', index === 0 && 'is-active']} type="button" data-pricing-tab={tab.id}>{tab.label}</button>
+    <button
+      class:list={['tab-button', index === 0 && 'is-active']}
+      type="button"
+      id={`pricing-tab-${tab.id}`}
+      role="tab"
+      aria-selected={index === 0 ? 'true' : 'false'}
+      aria-controls={`pricing-panel-${tab.id}`}
+      data-pricing-tab={tab.id}
+    >
+      {tab.label}
+    </button>
   ))}
 </div>
 
 {pricingTabs.map((tab, index) => {
   const content = pricingContent[tab.id];
   return (
-    <section class="pricing-panel" id={tab.id} data-pricing-panel={tab.id} hidden={index !== 0}>
+    <section
+      class:list={['pricing-panel', index === 0 && 'is-active']}
+      id={tab.id}
+      role="tabpanel"
+      aria-labelledby={`pricing-tab-${tab.id}`}
+      data-pricing-panel={tab.id}
+      hidden={index !== 0}
+    >
       <div class="card pricing-intro">
         <span class="badge">Ceny netto</span>
         <h2 style="margin-top: 18px;">{content.title}</h2>
@@ -74,18 +91,47 @@ const pricingShortcuts = [
 </p>
 
 <script>
-  const tabs = document.querySelectorAll('[data-pricing-tab]');
-  const panels = document.querySelectorAll('[data-pricing-panel]');
-  const activate = (id) => {
-    tabs.forEach((tab) => tab.classList.toggle('is-active', tab.dataset.pricingTab === id));
-    panels.forEach((panel) => { panel.hidden = panel.dataset.pricingPanel !== id; });
-    if (location.hash !== `#${id}`) history.replaceState(null, '', `#${id}`);
-  };
-  tabs.forEach((tab) => tab.addEventListener('click', () => activate(tab.dataset.pricingTab)));
-  const activateFromHash = () => {
-    const initial = location.hash.replace('#', '');
-    if (initial && document.querySelector(`[data-pricing-tab="${initial}"]`)) activate(initial);
-  };
-  activateFromHash();
-  window.addEventListener('hashchange', activateFromHash);
+  (() => {
+    const tabs = Array.from(document.querySelectorAll('[data-pricing-tab]'));
+    const panels = Array.from(document.querySelectorAll('[data-pricing-panel]'));
+    const validIds = new Set(tabs.map((tab) => tab.dataset.pricingTab));
+    const getInitialId = () => {
+      const hashId = decodeURIComponent(location.hash.replace('#', ''));
+      return validIds.has(hashId) ? hashId : tabs[0]?.dataset.pricingTab;
+    };
+    const revealPanelContent = (panel) => {
+      panel
+        .querySelectorAll('.reveal-target, .card, .pricing-card, .pricing-intro, .pricing-group-notes')
+        .forEach((item) => {
+          item.classList.add('reveal-target', 'is-visible');
+        });
+    };
+    const activate = (id, updateHash = true) => {
+      if (!validIds.has(id)) return;
+      tabs.forEach((tab) => {
+        const isActive = tab.dataset.pricingTab === id;
+        tab.classList.toggle('is-active', isActive);
+        tab.setAttribute('aria-selected', String(isActive));
+      });
+      panels.forEach((panel) => {
+        const isActive = panel.dataset.pricingPanel === id;
+        panel.hidden = !isActive;
+        panel.classList.toggle('is-active', isActive);
+        if (isActive) revealPanelContent(panel);
+      });
+      if (updateHash && location.hash !== `#${id}`) {
+        history.replaceState(null, '', `#${id}`);
+      }
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => activate(tab.dataset.pricingTab));
+    });
+
+    activate(getInitialId(), false);
+
+    window.addEventListener('hashchange', () => {
+      activate(getInitialId(), false);
+    });
+  })();
 </script>

@@ -1,4 +1,6 @@
 ---
+const { home = false } = Astro.props;
+
 const projectTypes = [
   ['website', 'Strona internetowa', 'Dla firmy, która chce jasno pokazać ofertę, usługi i ułatwić klientom kontakt.'],
   ['landing', 'Landing page', 'Jedna strona nastawiona na konkretną usługę, kampanię albo szybkie pozyskiwanie zapytań.'],
@@ -7,7 +9,7 @@ const projectTypes = [
   ['unsure', 'Nie wiem, potrzebuję pomocy', 'Zaznacz, jeśli chcesz, żebym pomógł dobrać najlepszy wariant.'],
 ];
 ---
-<div class="configurator" data-configurator>
+<div class:list={['configurator', home && 'configurator-home']} data-configurator>
   <section class="contact-card">
     <div class="config-steps" data-config-steps aria-label="Postęp konfiguratora">
       {['Projekt', 'Zakres', 'Etap', 'Materiały', 'Budżet', 'Kontakt'].map((label, index) => (
@@ -16,6 +18,13 @@ const projectTypes = [
           {label}
         </button>
       ))}
+    </div>
+    <div class="config-progress" aria-hidden="true">
+      <div class="config-progress-copy">
+        <span>Postęp</span>
+        <strong data-progress-label>17%</strong>
+      </div>
+      <div class="config-progress-track"><span data-progress-bar></span></div>
     </div>
     <p class="eyebrow">Krok <span data-step-number>1</span> z 6</p>
     <h2 data-step-title>Co chcesz stworzyć?</h2>
@@ -63,6 +72,8 @@ const projectTypes = [
     const next = root.querySelector('[data-next]');
     const prev = root.querySelector('[data-prev]');
     const stepButtons = root.querySelectorAll('[data-step-jump]');
+    const progressBar = root.querySelector('[data-progress-bar]');
+    const progressLabel = root.querySelector('[data-progress-label]');
     let isSending = false;
     const state = {
       step: 0,
@@ -382,6 +393,9 @@ const projectTypes = [
       `;
     };
     const updateSteps = () => {
+      const progress = Math.round(((state.step + 1) / 6) * 100);
+      if (progressBar) progressBar.style.transform = `scaleX(${progress / 100})`;
+      if (progressLabel) progressLabel.textContent = `${progress}%`;
       stepButtons.forEach((button) => {
         const step = Number(button.dataset.stepJump);
         const isActive = step === state.step;
