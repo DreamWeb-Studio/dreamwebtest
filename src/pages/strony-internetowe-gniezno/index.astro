@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/sections/PageHero.astro";
+import ContentSections from "../../components/sections/ContentSections.astro";
+import CaseStudies from "../../components/sections/CaseStudies.astro";
+import CTASection from "../../components/sections/CTASection.astro";
+import { pageMeta } from "../../data/site";
+
+const meta = pageMeta["/strony-internetowe-gniezno/"];
+const sections = [
+  {
+    title: "Dla lokalnych firm",
+    items: [
+      "usługodawcy",
+      "lokale i małe biznesy",
+      "firmy budowlane",
+      "branża beauty",
+      "specjaliści, którzy chcą lepiej pokazać ofertę"
+    ]
+  },
+  {
+    title: "Co otrzymujesz?",
+    items: [
+      "stronę mobile-first",
+      "czytelną ofertę i CTA",
+      "formularz kontaktowy",
+      "podstawowe SEO",
+      "publikację na domenie",
+      "opcjonalną pomoc z wizytówką Google"
+    ]
+  },
+  {
+    title: "Dlaczego lokalna firma potrzebuje czytelnej strony?",
+    body:
+      "Klient często sprawdza firmę w kilka sekund: na telefonie, między innymi zadaniami, tuż przed kontaktem. Strona powinna od razu pokazać ofertę, lokalizację działania i najprostszy sposób wysłania zapytania."
+  }
+];
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonicalPath="/strony-internetowe-gniezno/">
+  <PageHero
+    eyebrow="Lokalne SEO"
+    h1="Strony internetowe Gniezno"
+    lead="Tworzę czytelne, szybkie strony dla firm z Gniezna i okolic, z naciskiem na mobile, podstawowe SEO i łatwy kontakt."
+    secondary="Zobacz realizacje"
+    secondaryHref="/realizacje/"
+  />
+  <ContentSections sections={sections} />
+  <CaseStudies title="Realizacje i przykłady pracy" lead="Przykłady pokazują sposób myślenia o stronie: cel, zakres, mobile-first i kontakt." />
+  <CTASection title="Prowadzisz firmę lokalną w Gnieźnie lub okolicy?" lead="Opisz ofertę w konfiguratorze, a przygotuję propozycję strony dopasowanej do Twoich klientów." />
+</BaseLayout>

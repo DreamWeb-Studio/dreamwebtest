@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/sections/PageHero.astro";
+import { contact, pageMeta } from "../../data/site";
+
+const meta = pageMeta["/polityka-prywatnosci/"];
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonicalPath="/polityka-prywatnosci/">
+  <PageHero
+    eyebrow="Dokument"
+    h1="Polityka prywatności"
+    lead="Prosta informacja o tym, jak przetwarzane są dane przesłane przez formularze i kanały kontaktu DreamWeb Studio."
+    compact
+  />
+  <article class="bg-white py-12 md:py-16">
+    <div class="container-page max-w-[780px]">
+      <div class="grid gap-8 text-base leading-8 text-brand-muted">
+        <section>
+          <h2 class="text-2xl font-semibold text-brand-text">Administrator danych</h2>
+          <p class="mt-3">
+            Administratorem danych jest DreamWeb Studio. Kontakt w sprawach związanych z prywatnością jest możliwy telefonicznie pod numerem <a class="font-semibold text-brand-violet" href={contact.phoneHref}>{contact.phoneDisplay}</a>.
+          </p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-brand-text">Formularze i kontakt</h2>
+          <p class="mt-3">
+            Dane podane w formularzu kontaktowym lub konfiguratorze są wykorzystywane wyłącznie w celu odpowiedzi na zapytanie, przygotowania propozycji współpracy i dalszego kontaktu w sprawie projektu.
+          </p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-brand-text">Zakres danych</h2>
+          <p class="mt-3">
+            Formularze mogą zbierać imię, adres e-mail, opcjonalny numer telefonu, treść wiadomości oraz odpowiedzi dotyczące planowanego projektu.
+          </p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-brand-text">Cookies i analityka</h2>
+          <p class="mt-3">
+            Strona może używać podstawowych plików cookies potrzebnych do działania serwisu. Analityka nie została podłączona w tej wersji i wymaga osobnej konfiguracji, jeśli zostanie wdrożona.
+          </p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-brand-text">Okres przechowywania</h2>
+          <p class="mt-3">
+            Dane są przechowywane przez czas potrzebny do obsługi zapytania i ewentualnej współpracy, a potem usuwane, jeśli nie ma podstawy do dalszego przechowywania.
+          </p>
+        </section>
+        <section>
+          <h2 class="text-2xl font-semibold text-brand-text">Twoje prawa</h2>
+          <p class="mt-3">
+            Masz prawo dostępu do danych, sprostowania, usunięcia, ograniczenia przetwarzania oraz wniesienia sprzeciwu w przypadkach przewidzianych przepisami.
+          </p>
+        </section>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

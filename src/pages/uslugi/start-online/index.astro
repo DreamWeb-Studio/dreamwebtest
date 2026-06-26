@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHero from "../../../components/sections/PageHero.astro";
+import ContentSections from "../../../components/sections/ContentSections.astro";
+import CTASection from "../../../components/sections/CTASection.astro";
+import Button from "../../../components/ui/Button.astro";
+import { pageContent, pageMeta } from "../../../data/site";
+
+const meta = pageMeta["/uslugi/start-online/"];
+const content = pageContent.startOnline;
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonicalPath="/uslugi/start-online/">
+  <PageHero eyebrow="Opcjonalne wsparcie" h1={content.h1} lead={content.lead} cta="Wyceń stronę z pomocą online" />
+  <ContentSections sections={content.sections} />
+  <section class="bg-white py-12 md:py-16">
+    <div class="container-page rounded-[28px] border border-brand-border bg-brand-light p-6">
+      <h2 class="text-2xl font-semibold text-brand-text">Najczęściej łączę to z budową strony</h2>
+      <p class="mt-3 max-w-2xl text-sm leading-6 text-brand-muted">
+        Start online nie jest osobną główną usługą w menu. To praktyczny dodatek, gdy podczas tworzenia strony trzeba uporządkować podstawowe miejsca kontaktu.
+      </p>
+      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+        <Button href="/uslugi/strony-internetowe/" variant="secondary">Strony internetowe</Button>
+        <Button href="/konfigurator/">Przejdź do konfiguratora</Button>
+      </div>
+    </div>
+  </section>
+  <CTASection title="Potrzebujesz strony i uporządkowanego startu online?" cta="Wyceń stronę" />
+</BaseLayout>

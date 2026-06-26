@@ -1,0 +1,32 @@
+---
+import { MiniConfigurator } from "../islands/MiniConfigurator";
+import Button from "../ui/Button.astro";
+---
+
+<section class="dark-grid relative overflow-hidden bg-brand-dark text-white">
+  <div class="absolute inset-x-0 top-0 h-48 bg-[radial-gradient(circle_at_top_left,rgba(241,12,245,0.22),transparent_34%),radial-gradient(circle_at_top_right,rgba(122,77,255,0.20),transparent_32%)]"></div>
+  <div class="container-page relative grid gap-10 py-12 md:py-16 lg:grid-cols-[1.04fr_0.86fr] lg:items-center lg:py-20">
+    <div class="section-reveal">
+      <p class="text-sm font-semibold uppercase tracking-wide text-brand-soft">Strony internetowe i oferty PDF</p>
+      <h1 class="mt-4 text-4xl font-semibold tracking-tight text-white md:text-6xl">
+        Strony internetowe dla małych firm, które dobrze wyglądają na telefonie i ułatwiają kontakt
+      </h1>
+      <p class="mt-5 text-base leading-7 text-brand-soft md:max-w-2xl md:text-lg">
+        Pomagam uporządkować ofertę, treści i układ strony tak, żeby klient szybko zrozumiał, czym się zajmujesz i mógł łatwo wysłać zapytanie.
+      </p>
+      <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+        <Button href="/konfigurator/">Wyceń projekt</Button>
+        <Button href="/realizacje/" variant="secondary">Zobacz realizacje</Button>
+      </div>
+      <p class="mt-6 max-w-2xl text-sm leading-6 text-brand-soft">
+        Strony od 499 zł. Abonament od 99 zł / mies. Proste projekty zwykle w 2-4 tygodnie.
+      </p>
+      <div class="mt-6 rounded-2xl border border-white/10 bg-white/[0.06] p-4 text-sm text-brand-soft lg:hidden">
+        Konfigurator wyceny czeka na następnej stronie. Na telefonie przejdziesz przez niego krok po kroku bez ścisku na ekranie.
+      </div>
+    </div>
+    <div class="hidden lg:block">
+      <MiniConfigurator client:load />
+    </div>
+  </div>
+</section>

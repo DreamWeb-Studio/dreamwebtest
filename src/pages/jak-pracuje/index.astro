@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/sections/PageHero.astro";
+import ProcessSteps from "../../components/sections/ProcessSteps.astro";
+import ContentSections from "../../components/sections/ContentSections.astro";
+import CTASection from "../../components/sections/CTASection.astro";
+import { pageContent, pageMeta } from "../../data/site";
+
+const meta = pageMeta["/jak-pracuje/"];
+const content = pageContent.work;
+const steps = content.steps.map((title, index) => ({
+  title,
+  description:
+    [
+      "Zbieram podstawowe informacje o celu, zakresie i materiałach.",
+      "Doprecyzowujemy ofertę, treści, termin i priorytety.",
+      "Układam logiczną strukturę strony oraz komunikację sekcji.",
+      "Projektuję i wdrażam stronę z naciskiem na mobile-first.",
+      "Publikujemy stronę, sprawdzamy działanie i ustalamy dalsze kroki."
+    ][index] || ""
+}));
+const sections = [
+  { title: "Co musisz przygotować?", items: content.prepare },
+  { title: "Co dostajesz na koniec?", items: content.deliverables }
+];
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonicalPath="/jak-pracuje/">
+  <PageHero eyebrow="Proces" h1={content.h1} lead={content.lead} compact />
+  <ProcessSteps title="Proces 5 kroków" steps={steps} />
+  <ContentSections sections={sections} />
+  <CTASection title="Chcesz przejść przez proces krok po kroku?" lead="Zacznij od konfiguratora. Dzięki temu rozmowa od razu dotyczy konkretów." />
+</BaseLayout>

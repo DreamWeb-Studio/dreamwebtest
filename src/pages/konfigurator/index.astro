@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/sections/PageHero.astro";
+import ContentSections from "../../components/sections/ContentSections.astro";
+import CTASection from "../../components/sections/CTASection.astro";
+import { ProjectConfigurator } from "../../components/islands/ProjectConfigurator";
+import { pageMeta } from "../../data/site";
+
+const meta = pageMeta["/konfigurator/"];
+const afterSubmit = [
+  {
+    title: "Co stanie się po wysłaniu?",
+    items: [
+      "otrzymam informacje o projekcie i zakresie",
+      "sprawdzę, czy coś warto doprecyzować",
+      "wrócę z konkretną propozycją lub pytaniami",
+      "dopiero potem decydujesz, czy działamy dalej"
+    ]
+  },
+  {
+    title: "Krótko o wycenie",
+    body:
+      "Konfigurator jest bez zobowiązań. Jego celem jest zebranie kontekstu, żeby nie wyceniać projektu na podstawie jednego zdania."
+  }
+];
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonicalPath="/konfigurator/">
+  <PageHero
+    eyebrow="Konfigurator"
+    h1="Wyceń projekt w kilka minut"
+    lead="Zaznacz kilka odpowiedzi i zostaw kontakt. Formularz pomaga ustalić, czy potrzebujesz strony, oferty PDF, czy obu materiałów."
+    compact
+  />
+  <section class="bg-brand-light py-10 md:py-14">
+    <div class="container-page max-w-4xl">
+      <ProjectConfigurator client:load />
+    </div>
+  </section>
+  <ContentSections sections={afterSubmit} />
+  <CTASection title="Wolisz szybki kontakt?" lead="Konfigurator jest najlepszy do wyceny, ale WhatsApp może pomóc, jeśli chcesz najpierw zapytać o szczegół." />
+</BaseLayout>

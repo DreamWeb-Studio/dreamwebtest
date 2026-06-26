@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/sections/PageHero.astro";
+import ContentSections from "../../components/sections/ContentSections.astro";
+import CTASection from "../../components/sections/CTASection.astro";
+import { pageContent, pageMeta } from "../../data/site";
+
+const meta = pageMeta["/dlaczego-ja/"];
+const content = pageContent.why;
+const sections = [
+  {
+    title: "Argumenty",
+    items: [
+      "pomagam uporządkować ofertę",
+      "projektuję mobile-first",
+      "nie musisz znać technikaliów",
+      "tworzę czytelne strony bez zbędnych efektów",
+      "dbam o podstawowe SEO i publikację"
+    ]
+  },
+  {
+    title: "Dla kogo jestem dobrym wyborem?",
+    items: content.goodFor
+  },
+  {
+    title: "Dla kogo nie jestem dobrym wyborem?",
+    items: content.notFor
+  }
+];
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonicalPath="/dlaczego-ja/">
+  <PageHero eyebrow="Zaufanie" h1={content.h1} lead={content.lead} compact />
+  <ContentSections sections={sections} />
+  <CTASection title="Chcesz sprawdzić, czy pasujemy do siebie projektowo?" lead="Konfigurator pokaże zakres, a ja wrócę z konkretną propozycją bez technicznego chaosu." />
+</BaseLayout>

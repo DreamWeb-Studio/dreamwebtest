@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/sections/PageHero.astro";
+import CaseStudies from "../../components/sections/CaseStudies.astro";
+import CTASection from "../../components/sections/CTASection.astro";
+import { pageMeta } from "../../data/site";
+
+const meta = pageMeta["/realizacje/"];
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonicalPath="/realizacje/">
+  <PageHero
+    eyebrow="Realizacje"
+    h1="Realizacje DreamWeb Studio"
+    lead="Przykłady projektów opisane jako krótkie case studies: cel, zakres i sposób uporządkowania komunikacji."
+    secondary="Wyceń podobny projekt"
+    secondaryHref="/konfigurator/"
+  />
+  <CaseStudies title="Case studies" lead="Jeśli nie ma publicznego screena, pokazuję projekt jako elegancką kartę bez udawania danych, których nie ma." />
+  <CTASection title="Chcesz podobną stronę?" lead="Opisz projekt w konfiguratorze, a przygotuję konkretną propozycję zakresu." />
+</BaseLayout>

@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/sections/PageHero.astro";
+import PricingCards from "../../components/sections/PricingCards.astro";
+import ContentSections from "../../components/sections/ContentSections.astro";
+import CTASection from "../../components/sections/CTASection.astro";
+import { FAQAccordion } from "../../components/islands/FAQAccordion";
+import { faqGroups, pageMeta } from "../../data/site";
+
+const meta = pageMeta["/cennik/"];
+const pricingFaq = faqGroups.filter((group) => group.category === "Ceny");
+const sections = [
+  {
+    title: "Co wpływa na cenę?",
+    items: [
+      "liczba sekcji i podstron",
+      "ilość materiałów i treści do uporządkowania",
+      "formularze oraz dodatkowe funkcje",
+      "potrzeba przygotowania oferty PDF",
+      "publikacja i ustawienia domeny"
+    ]
+  },
+  {
+    title: "Czego nie robię?",
+    items: [
+      "nie ukrywam kosztów",
+      "nie wciskam niepotrzebnych pakietów",
+      "nie obiecuję pełnej rozbudowanej strony za 499 zł",
+      "nie komplikuję wyceny bez potrzeby"
+    ]
+  }
+];
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonicalPath="/cennik/">
+  <PageHero
+    eyebrow="Cennik"
+    h1="Cennik DreamWeb Studio"
+    lead="Cena zależy od zakresu, liczby sekcji, materiałów i tego, czy potrzebujesz samej strony, oferty PDF czy obu rzeczy."
+    secondary="Wyceń projekt"
+    secondaryHref="/konfigurator/"
+  />
+  <PricingCards withMainCta={false} />
+  <ContentSections sections={sections} />
+  <section class="bg-white py-12 md:py-16">
+    <div class="container-page max-w-3xl">
+      <FAQAccordion client:load groups={pricingFaq} />
+    </div>
+  </section>
+  <CTASection title="Chcesz poznać realny koszt swojego projektu?" lead="Najprościej będzie przejść przez konfigurator. Dzięki temu nie wybierasz pakietu w ciemno." />
+</BaseLayout>

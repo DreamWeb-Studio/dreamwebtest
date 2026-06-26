@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/sections/PageHero.astro";
+import CTASection from "../../components/sections/CTASection.astro";
+import { FAQAccordion } from "../../components/islands/FAQAccordion";
+import { getAllFaqItems, pageMeta, faqGroups } from "../../data/site";
+
+const meta = pageMeta["/faq/"];
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: getAllFaqItems().map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer
+    }
+  }))
+};
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonicalPath="/faq/" jsonLd={faqJsonLd}>
+  <PageHero
+    eyebrow="FAQ"
+    h1="Najczęstsze pytania"
+    lead="Odpowiedzi na pytania o ceny, strony internetowe, oferty PDF, konfigurator, domenę i współpracę."
+    compact
+  />
+  <section class="bg-brand-light py-12 md:py-16">
+    <div class="container-page max-w-4xl">
+      <FAQAccordion client:load groups={faqGroups} />
+    </div>
+  </section>
+  <CTASection title="Masz pytanie o swój projekt?" lead="Najłatwiej zacząć od konfiguratora albo krótkiej wiadomości na WhatsApp." />
+</BaseLayout>

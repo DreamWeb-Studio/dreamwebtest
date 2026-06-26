@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/sections/PageHero.astro";
+import Button from "../../components/ui/Button.astro";
+import { ContactForm } from "../../components/islands/ContactForm";
+import { contact, pageMeta } from "../../data/site";
+
+const meta = pageMeta["/kontakt/"];
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonicalPath="/kontakt/">
+  <PageHero
+    eyebrow="Kontakt"
+    h1="Napisz, czego potrzebujesz"
+    lead="Najlepszą ścieżką do wyceny jest konfigurator, ale możesz też skorzystać z WhatsApp, telefonu albo formularza kontaktowego."
+    compact
+  />
+  <section class="bg-brand-light py-12 md:py-16">
+    <div class="container-page grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+      <aside class="rounded-[28px] border border-brand-border bg-white p-5 shadow-soft">
+        <h2 class="text-2xl font-semibold text-brand-text">Szybki kontakt</h2>
+        <p class="mt-3 text-sm leading-6 text-brand-muted">
+          DreamWeb Studio działa z Gniezna, ale projekty realizuję dla firm z całej Polski.
+        </p>
+        <div class="mt-6 grid gap-3">
+          <Button href="/konfigurator/">Wyceń projekt</Button>
+          <Button href={contact.whatsapp} variant="secondary">WhatsApp</Button>
+          <Button href={contact.phoneHref} variant="secondary">Zadzwoń</Button>
+        </div>
+        <dl class="mt-7 grid gap-3 text-sm text-brand-muted">
+          <div>
+            <dt class="font-semibold text-brand-text">Telefon / WhatsApp</dt>
+            <dd><a class="hover:text-brand-violet" href={contact.phoneHref}>{contact.phoneDisplay}</a></dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-brand-text">Social media</dt>
+            <dd class="mt-1 flex gap-4">
+              <a class="hover:text-brand-violet" href={contact.instagram}>Instagram</a>
+              <a class="hover:text-brand-violet" href={contact.facebook}>Facebook</a>
+            </dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-brand-text">Lokalizacja</dt>
+            <dd>Gniezno / cała Polska</dd>
+          </div>
+        </dl>
+      </aside>
+      <div>
+        <h2 class="mb-4 text-2xl font-semibold text-brand-text">Formularz kontaktowy</h2>
+        <ContactForm client:load />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

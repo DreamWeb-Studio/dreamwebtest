@@ -1,0 +1,33 @@
+---
+import Button from "../ui/Button.astro";
+import { contact } from "../../data/site";
+
+interface Props {
+  title?: string;
+  lead?: string;
+  cta?: string;
+  ctaHref?: string;
+  showWhatsapp?: boolean;
+}
+
+const {
+  title = "Chcesz uporządkować stronę albo stworzyć ją od zera?",
+  lead = "Przejdź przez konfigurator i opisz krótko, czego potrzebujesz. Wrócę z konkretną propozycją i orientacyjną wyceną.",
+  cta = "Wyceń projekt",
+  ctaHref = "/konfigurator/",
+  showWhatsapp = true
+} = Astro.props;
+---
+
+<section class="bg-brand-dark py-12 text-white md:py-16">
+  <div class="container-page rounded-[28px] border border-white/10 bg-white/[0.055] p-6 md:p-8">
+    <div class="max-w-3xl">
+      <h2 class="text-3xl font-semibold tracking-tight md:text-4xl">{title}</h2>
+      <p class="mt-4 text-base leading-7 text-brand-soft">{lead}</p>
+    </div>
+    <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+      <Button href={ctaHref}>{cta}</Button>
+      {showWhatsapp && <Button href={contact.whatsapp} variant="secondary">WhatsApp</Button>}
+    </div>
+  </div>
+</section>

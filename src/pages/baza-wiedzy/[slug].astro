@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/sections/PageHero.astro";
+import CTASection from "../../components/sections/CTASection.astro";
+import { articles, pageMeta, site } from "../../data/site";
+
+export function getStaticPaths() {
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article }
+  }));
+}
+
+const { article } = Astro.props;
+const meta = pageMeta[article.href];
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: article.title,
+  description: article.description,
+  inLanguage: "pl-PL",
+  author: {
+    "@type": "Organization",
+    name: site.name
+  },
+  publisher: {
+    "@type": "Organization",
+    name: site.name,
+    logo: {
+      "@type": "ImageObject",
+      url: `${site.domain}/assets/logo-dreamweb-studio.png`
+    }
+  },
+  mainEntityOfPage: `${site.domain}${article.href}`,
+  datePublished: "2026-06-26",
+  dateModified: "2026-06-26"
+};
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonicalPath={article.href} ogType="article" jsonLd={jsonLd}>
+  <PageHero eyebrow="Baza wiedzy" h1={article.title} lead={article.description} compact />
+  <article class="bg-white py-12 md:py-16">
+    <div class="container-page max-w-[780px]">
+      <div class="grid gap-9">
+        {
+          article.sections.map((section) => (
+            <section>
+              <h2 class="text-2xl font-semibold tracking-tight text-brand-text">{section.title}</h2>
+              <p class="mt-4 text-base leading-8 text-brand-muted">{section.body}</p>
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </article>
+  <CTASection title="Chcesz przełożyć wiedzę na konkretny projekt?" lead="Opisz krótko, czego potrzebujesz, a pomogę dobrać właściwy zakres strony albo oferty PDF." />
+</BaseLayout>

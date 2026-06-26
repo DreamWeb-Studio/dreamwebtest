@@ -1,0 +1,62 @@
+---
+import { MobileMenu } from "../islands/MobileMenu";
+import Button from "./Button.astro";
+import { mainNav, offerNav, site } from "../../data/site";
+---
+
+<header class="sticky top-0 z-40 border-b border-white/10 bg-brand-dark/92 backdrop-blur-xl">
+  <div class="container-page flex min-h-[72px] items-center justify-between gap-4">
+    <a href="/" class="flex shrink-0 items-center" aria-label="DreamWeb Studio - strona główna">
+      <img
+        src={site.logo}
+        alt="DreamWeb Studio"
+        width="342"
+        height="88"
+        class="h-10 w-auto"
+        loading="eager"
+      />
+    </a>
+
+    <nav class="hidden items-center gap-1 lg:flex" aria-label="Główna nawigacja">
+      {
+        mainNav.map((item) =>
+          item.hasDropdown ? (
+            <div class="group relative">
+              <a
+                href={item.href}
+                class="inline-flex min-h-11 items-center rounded-full px-4 text-sm font-medium text-brand-soft transition hover:bg-white/[0.08] hover:text-white focus-visible:outline-brand-violet"
+              >
+                {item.label}
+              </a>
+              <div class="invisible absolute left-0 top-full w-64 translate-y-2 rounded-2xl border border-white/10 bg-brand-surface p-2 opacity-0 shadow-2xl transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                {offerNav.map((offer) => (
+                  <a
+                    href={offer.href}
+                    class="block rounded-xl px-4 py-3 text-sm font-medium text-brand-soft transition hover:bg-white/[0.08] hover:text-white"
+                  >
+                    {offer.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <a
+              href={item.href}
+              class="inline-flex min-h-11 items-center rounded-full px-4 text-sm font-medium text-brand-soft transition hover:bg-white/[0.08] hover:text-white focus-visible:outline-brand-violet"
+            >
+              {item.label}
+            </a>
+          )
+        )
+      }
+    </nav>
+
+    <div class="hidden shrink-0 lg:block">
+      <Button href="/konfigurator/" class="min-h-11 px-5 py-2.5">Wyceń projekt</Button>
+    </div>
+
+    <div class="lg:hidden">
+      <MobileMenu client:load logo={site.logo} />
+    </div>
+  </div>
+</header>

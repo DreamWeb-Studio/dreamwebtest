@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHero from "../../../components/sections/PageHero.astro";
+import ContentSections from "../../../components/sections/ContentSections.astro";
+import MobileFirstSection from "../../../components/sections/MobileFirstSection.astro";
+import CTASection from "../../../components/sections/CTASection.astro";
+import { pageContent, pageMeta } from "../../../data/site";
+
+const meta = pageMeta["/uslugi/landing-page/"];
+const content = pageContent.landing;
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonicalPath="/uslugi/landing-page/">
+  <PageHero eyebrow="Landing page" h1={content.h1} lead={content.lead} />
+  <ContentSections sections={content.sections} />
+  <MobileFirstSection />
+  <CTASection title="Masz jedną ofertę, którą chcesz lepiej pokazać?" lead="W konfiguratorze zaznacz, że interesuje Cię landing page. Dopasuję zakres do celu kampanii albo usługi." />
+</BaseLayout>

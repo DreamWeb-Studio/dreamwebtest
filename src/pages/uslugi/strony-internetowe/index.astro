@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHero from "../../../components/sections/PageHero.astro";
+import ContentSections from "../../../components/sections/ContentSections.astro";
+import MobileFirstSection from "../../../components/sections/MobileFirstSection.astro";
+import ProcessSteps from "../../../components/sections/ProcessSteps.astro";
+import PricingCards from "../../../components/sections/PricingCards.astro";
+import CTASection from "../../../components/sections/CTASection.astro";
+import { pageContent, pageMeta } from "../../../data/site";
+
+const meta = pageMeta["/uslugi/strony-internetowe/"];
+const content = pageContent.websites;
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonicalPath="/uslugi/strony-internetowe/">
+  <PageHero
+    eyebrow="Strony internetowe"
+    h1={content.h1}
+    lead={content.lead}
+    price={content.price}
+    cta={content.cta}
+    secondary="Zobacz realizacje"
+    secondaryHref="/realizacje/"
+  />
+  <ContentSections sections={content.sections} />
+  <MobileFirstSection />
+  <ProcessSteps />
+  <PricingCards title="Cennik stron internetowych" lead="Prosta strona startuje od 499 zł. Większy zakres, podstrony i dodatkowe funkcje wyceniam po konfiguratorze." />
+  <CTASection title="Chcesz stronę, która jasno prowadzi do kontaktu?" lead="Opisz zakres w konfiguratorze, a wrócę z propozycją i orientacyjną wyceną." cta="Wyceń stronę" />
+</BaseLayout>

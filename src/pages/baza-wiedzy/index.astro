@@ -1,54 +1,32 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PageHero from '../../components/PageHero.astro';
-import { knowledgeArticles } from '../../data/knowledge.js';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/sections/PageHero.astro";
+import CTASection from "../../components/sections/CTASection.astro";
+import Button from "../../components/ui/Button.astro";
+import { articles, pageMeta } from "../../data/site";
+
+const meta = pageMeta["/baza-wiedzy/"];
 ---
 
-<BaseLayout
-  title="Baza wiedzy | DreamWeb Studio"
-  description="Praktyczne poradniki o stronach internetowych, landing page’ach, ofertach PDF, SEO, UI/UX i przygotowaniu firmy do działania online."
-  canonical="/baza-wiedzy/"
->
+<BaseLayout title={meta.title} description={meta.description} canonicalPath="/baza-wiedzy/">
   <PageHero
-    badge="BAZA WIEDZY"
-    title="Baza wiedzy"
-    text="Praktyczne poradniki o stronach internetowych, landing page’ach, ofertach PDF, SEO, UI/UX i przygotowaniu firmy do działania online."
-    primary="Skonfiguruj projekt"
-    primaryHref="/konfigurator"
-    secondary="Sprawdź cennik"
-    secondaryHref="/cennik"
+    eyebrow="Baza wiedzy"
+    h1="Baza wiedzy"
+    lead="Praktyczne teksty dla małych firm, które chcą lepiej zrozumieć stronę internetową, landing page i elementy dobrej oferty."
+    compact
   />
-
-  <section class="section section-night knowledge-page">
-    <div class="container">
-      <div class="section-title">
-        <span class="badge">PORADNIKI</span>
-        <h2>Od zakresu po pierwsze zapytania</h2>
-        <p>Na start zebrałem trzy tematy, które najczęściej pojawiają się przed stworzeniem strony: cena, wybór typu strony i elementy, które realnie budują zaufanie.</p>
-      </div>
-
-      <div class="knowledge-grid stagger-grid">
-        {knowledgeArticles.map((article) => (
-          <article class="card knowledge-card">
-            <div class="knowledge-card-meta">
-              <span>{article.category}</span>
-              <small>{article.published}</small>
-            </div>
-            <h3>{article.title}</h3>
-            <p>{article.description}</p>
-            <a class="knowledge-card-link" href={article.href}>Czytaj artykuł</a>
+  <section class="bg-brand-light py-12 md:py-16">
+    <div class="container-page grid gap-5 md:grid-cols-3">
+      {
+        articles.map((article) => (
+          <article class="flex h-full flex-col rounded-[28px] border border-brand-border bg-white p-5 shadow-soft">
+            <h2 class="text-xl font-semibold text-brand-text">{article.title}</h2>
+            <p class="mt-3 grow text-sm leading-6 text-brand-muted">{article.description}</p>
+            <Button href={article.href} variant="secondary" class="mt-6">Czytaj artykuł</Button>
           </article>
-        ))}
-      </div>
-
-      <div class="knowledge-cta card">
-        <div>
-          <span class="badge">NIE WIESZ, OD CZEGO ZACZĄĆ?</span>
-          <h2>Dobierz zakres bez zgadywania</h2>
-          <p>Przejdź przez konfigurator i sprawdź, jaki zakres będzie najlepszy dla Twojej firmy.</p>
-        </div>
-        <a class="button button-primary" href="/konfigurator">Przejdź przez konfigurator</a>
-      </div>
+        ))
+      }
     </div>
   </section>
+  <CTASection title="Nie wiesz, czego potrzebujesz?" lead="Konfigurator pomoże ustalić, czy lepsza będzie strona, landing page, oferta PDF czy połączenie kilku elementów." />
 </BaseLayout>
